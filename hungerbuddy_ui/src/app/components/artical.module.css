@@ -1,0 +1,14 @@
+.body{
+    
+    background-color: blue;
+}
+.box{
+    width: 50%;
+    height: 357px;
+    background: #000;
+}
+.box1{
+    width: 50%;
+    height: 357px;
+    background: red;
+}

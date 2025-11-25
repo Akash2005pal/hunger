@@ -10,6 +10,11 @@
   width: 50%;
   padding: 10px 20px;
 }
+@media (max-width:600px){
+  .stylebar{
+    width: 90%;
+  }
+}
 
 .searchbox {
   width: 100%;

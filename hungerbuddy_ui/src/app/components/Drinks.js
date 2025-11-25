@@ -60,7 +60,7 @@ return(
 
 
 <div style={{width:'95%',position:'relative'}}>
-   <div style={{fontSize:20,fontWeight:'bold',marginBottom:10,marginLeft:'6%'}}>Drinks</div>
+   <div style={{fontSize:20,fontWeight:'bold',marginBottom:10,marginLeft:'6px'}}>Drinks</div>
 {matches?<></>:<Image onClick={handlePrevious} style={{position:'absolute',top:'42%',zIndex:2,cursor:'pointer'}} src="/images/left.png" width={35} height={35} alt="" />}
   <Slider ref={sliderRef} {...settings}>
    {showCategory()}

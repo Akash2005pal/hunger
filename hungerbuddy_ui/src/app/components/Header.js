@@ -28,11 +28,11 @@ export default function Header() {
      <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom:'10px'}}>
         <SearchBar/>
       </div>
-      <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'center' ,marginBottom:'30px'}}>
         <CategoryComponent />
 
       </div>
-      <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom:'30px'}}>
         <DrinksComponent />
       </div>
       <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>

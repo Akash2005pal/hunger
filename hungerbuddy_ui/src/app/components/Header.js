@@ -6,6 +6,8 @@ import CategoryComponent from "./Category";
 import SearchBar from "./SearchBar";
 import DrinksComponent from "./Drinks";
 import SnacksComponent from "./Snacks";
+import { Article } from "@mui/icons-material";
+import Artical from "./Artical"
 export default function Header() {
   return (
     <div className={styles.maincontainer}>
@@ -28,6 +30,7 @@ export default function Header() {
      <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom:'10px'}}>
         <SearchBar/>
       </div>
+      <Artical/>
       <div style={{ width: '100%', display: 'flex', justifyContent: 'center' ,marginBottom:'30px'}}>
         <CategoryComponent />
 

@@ -1,14 +1,93 @@
-.body{
-    
-    background-color: blue;
+.adparent {
+  width: 100%;
+  height: 470px;
+  display: flex;
+  justify-content: center;   /* horizontally */
+  align-items: center;       /* vertically */
+  margin-top: 30px;
+  background: #f1f0e4;
+  
 }
-.box{
-    width: 50%;
-    height: 357px;
-    background: #000;
+
+
+/* LEFT IMAGE */
+.adleft {
+  width: 50%;
+  height: 100%;
 }
-.box1{
-    width: 50%;
-    height: 357px;
-    background: red;
+
+.adimage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  padding: 0;
+}
+
+/* RIGHT CONTENT */
+.adright {
+  width: 50%;
+  height: 100%;
+  display: flex;
+}
+
+.adcontent {
+  padding: 100px;
+}
+
+.adheading {
+  font-size: 2rem;
+  color: #32472f;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.addesc {
+  font-size: 1.4rem;
+  color: #444a2f;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.adbtn {
+  padding: 10px 20px;
+  background: #334b43;
+  color: #fff;
+  border-radius: 25px;
+  border: 1px solid #334b43;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+/* Hover */
+.adbtn:hover {
+  background: #2b3f38;
+}
+
+/* ----------------------------
+   RESPONSIVE
+------------------------------- */
+@media (max-width: 900px) {
+  .adparent {
+    flex-direction: column;
+    height: auto;
+  }
+  .adleft,
+  .adright {
+    width: 100%;
+    height: auto;
+  }
+  .adcontent {
+    padding: 40px;
+  }
+  .adheading {
+    font-size: 1.6rem;
+  }
+  .addesc {
+    font-size: 1.2rem;
+  }
+  .adbtn {
+    font-size: 1.1rem;
+  }
 }

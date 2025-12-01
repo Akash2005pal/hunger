@@ -30,7 +30,7 @@ export default function SnacksComponent()
     {categoryid:6,categoryname:'Paneer',icon:'lays.png'},
     {categoryid:7,categoryname:'South Indian',icon:'cheetos.png'},
     {categoryid:8,categoryname:'Snaks',icon:'bingo.png'},
-    {categoryid:9,categoryname:'South Indian',icon:'southindian.png'}
+    
    ]
    const handleCategoryClick=(cid)=>{
     setIndex(cid)

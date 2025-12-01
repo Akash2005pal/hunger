@@ -27,10 +27,10 @@ export default function DrinksComponent()
     {categoryid:3,categoryname:'Miranda',icon:'miranda.png'},
     {categoryid:4,categoryname:'RealJose',icon:'realjose.png'},
     {categoryid:5,categoryname:'Red Bull',icon:'redbull.png'},
-    {categoryid:6,categoryname:'Paneer',icon:'paneer.png'},
-    {categoryid:7,categoryname:'South Indian',icon:'southindian.png'},
-    {categoryid:8,categoryname:'Snaks',icon:'lays.png'},
-    {categoryid:9,categoryname:'South Indian',icon:'southindian.png'}
+    {categoryid:2,categoryname:'Frooti',icon:'frooti.png'},
+    {categoryid:3,categoryname:'Miranda',icon:'miranda.png'},
+     {categoryid:2,categoryname:'Frooti',icon:'frooti.png'},
+    {categoryid:3,categoryname:'Miranda',icon:'miranda.png'},
    ]
    const handleCategoryClick=(cid)=>{
     setIndex(cid)

@@ -5,6 +5,7 @@ import Category from "../components/Category"
 import FooditemCard from "../components/FooditemCard"
 import Footer from "../components/Foter"
 import Artical from "../components/Artical"
+
 export default function HomePage() {
   return (<div><div >
 
@@ -14,6 +15,7 @@ export default function HomePage() {
 
     <FooditemCard />
     <Footer />
+    <Card />
 
   </div>
 

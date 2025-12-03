@@ -1,3 +1,5 @@
+
+"use client"
 import { MoveLeft } from "lucide-react";
 import styles from "./Header.module.css";
 import User from "./user";
@@ -6,11 +8,20 @@ import CategoryComponent from "./Category";
 import SearchBar from "./SearchBar";
 import DrinksComponent from "./Drinks";
 import SnacksComponent from "./Snacks";
-import { Article } from "@mui/icons-material";
+import { Article, Category } from "@mui/icons-material";
 import Artical from "./Artical"
-
+import { useEffect, useState } from "react";
+import { getData } from "../services/FetchNodeServices";
 
 export default function Header() {
+  const [listCategory, setListCategory] = useState([])
+  const fetchAllCategory = async () => {
+var response = await getData("users/fech_all_category")
+setListCategory(response.data)
+  }
+  useEffect(function () {
+    fetchAllCategory()
+  },[])
   return (
     <div className={styles.maincontainer}>
       <div className={styles.stylebar}>
@@ -29,22 +40,22 @@ export default function Header() {
         </div>
         <User />
       </div>
-     <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom:'10px'}}>
-        <SearchBar/>
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '10px' }}>
+        <SearchBar />
       </div>
-      <Artical/>
-      <div style={{ width: '100%', display: 'flex', justifyContent: 'center' ,marginBottom:'30px'}}>
-        <CategoryComponent />
+      <Artical />
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '30px' }}>
+        <CategoryComponent data={listCategory}/>
 
       </div>
-      <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom:'30px'}}>
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '30px' }}>
         <DrinksComponent />
       </div>
       <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
         <SnacksComponent />
-        
+
       </div>
-     
+
     </div>
   );
 }

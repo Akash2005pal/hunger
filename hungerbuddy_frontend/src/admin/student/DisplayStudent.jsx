@@ -70,7 +70,7 @@ const useStyles = makeStyles(() => ({
 }));
 export default function DisplayStudent() {
   const classes = useStyles();
-   var navigate = useNavigate();
+  var navigate = useNavigate();
   const [branchId, setBranchId] = useState("");
   const [batchId, setBatchId] = useState("");
   const [sectionId, setSectionId] = useState("");
@@ -102,9 +102,9 @@ export default function DisplayStudent() {
   const [permanent_state, setPermanent_state] = useState("");
   const [permanent_city, setPermanent_city] = useState("");
   const [permanent_pincode, setPermanent_pincode] = useState("");
-     const [tempImage, setTempImage] = useState("");
-      const [dialogstate, setDialogState] = useState("");
-         const [statusButton, setStatusButton] = useState(false);
+  const [tempImage, setTempImage] = useState("");
+  const [dialogstate, setDialogState] = useState("");
+  const [statusButton, setStatusButton] = useState(false);
 
   const [student_picture, setStudent_picture] = useState({
     bytes: "",
@@ -295,32 +295,32 @@ export default function DisplayStudent() {
   const handleClick = async () => {
     var err = validation();
     if (err == false) {
-    var body={
-      enrollmentno:enrollmentno,
-      branchid:branchId,
-      batchid:batchId,
-      sectionid:sectionId,
-      studentname:studentname,
-      dob:dob,
-      gender:gender,
-      fathername:fathername,
-      mothername:mothername,
-      emailid:emailid,
-      mobileno:mobileno,
-      fathercontactno:fathercontactno,
-      mothercontactno:mothercontactno,
-      current_address:current_address,
-      current_state:current_state,
-      current_city:current_city,
-      current_pincode:current_pincode,
-      permanent_address:permanent_address,
-      permanent_state:permanent_state,
-      permanent_city:permanent_city,
-      permanent_pincode:permanent_pincode,
-      createddate:getDate(),
-      createdtime:getTime(),
-      userid:"xxxxx"
-    };
+      var body = {
+        enrollmentno: enrollmentno,
+        branchid: branchId,
+        batchid: batchId,
+        sectionid: sectionId,
+        studentname: studentname,
+        dob: dob,
+        gender: gender,
+        fathername: fathername,
+        mothername: mothername,
+        emailid: emailid,
+        mobileno: mobileno,
+        fathercontactno: fathercontactno,
+        mothercontactno: mothercontactno,
+        current_address: current_address,
+        current_state: current_state,
+        current_city: current_city,
+        current_pincode: current_pincode,
+        permanent_address: permanent_address,
+        permanent_state: permanent_state,
+        permanent_city: permanent_city,
+        permanent_pincode: permanent_pincode,
+        createddate: getDate(),
+        createdtime: getTime(),
+        userid: "xxxxx"
+      };
       var response = await postData("student/edit_student", body);
       if (response.status) {
         fetchstudent();
@@ -346,72 +346,72 @@ export default function DisplayStudent() {
     }
   };
   const saveCancelButton = () => {
-      return (
-        <div
-          style={{
-            display: "flex",
-            width: "70%",
-            justifyContent: "space-between",
-            gap: 50,
-          }}
+    return (
+      <div
+        style={{
+          display: "flex",
+          width: "70%",
+          justifyContent: "space-between",
+          gap: 50,
+        }}
+      >
+        <Button onClick={handleEditPicture}
+          style={{ background: "hsla(321, 41%, 24%, 1) 0%", width: 100 }}
+          variant="contained"
         >
-          <Button onClick={handleEditPicture}
-            style={{ background: "hsla(321, 41%, 24%, 1) 0%", width: 100 }}
-            variant="contained"
-          >
-            Save
-          </Button>
-          <Button
-            onClick={handleCancel}
-            style={{ background: "hsla(321, 41%, 24%, 1) 0%", width: 100 }}
-            variant="contained"
-          >
-            Cancel
-          </Button>
-        </div>
-      );
-    };
+          Save
+        </Button>
+        <Button
+          onClick={handleCancel}
+          style={{ background: "hsla(321, 41%, 24%, 1) 0%", width: 100 }}
+          variant="contained"
+        >
+          Cancel
+        </Button>
+      </div>
+    );
+  };
 
-    
+
   const handleCancel = () => {
     setStudent_picture({ filename: tempImage, bytes: "" });
     setStatusButton(false);
   };
 
 
-  const handleEditPicture=async()=>{
-  var formData =new FormData()
-      formData.append('enrollmentno',enrollmentno)
-     formData.append('student_picture',student_picture.bytes)
-     formData.append('createddate',getDate())
-     formData.append('createdtime', getTime())
-      formData.append('userid', "xxxxx")
+  const handleEditPicture = async () => {
+    var formData = new FormData()
+    formData.append('enrollmentno', enrollmentno)
+    formData.append('student_picture', student_picture.bytes)
+    formData.append('createddate', getDate())
+    formData.append('createdtime', getTime())
+    formData.append('userid', "xxxxx")
 
 
-      var response = await postData("student/edit_picture", formData);
-        if (response.status) {
-          fetchstudent();
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: response.message,
-            showConfirmButton: false,
-            timer: 3000,
-            toast: true,
-          });
-          setOpen(false);
-          fetchstudent();
-        } else {
-          Swal.fire({
-            position: "center",
-            icon: "error",
-            title: response.message,
-            showConfirmButton: false,
-            timer: 3000,
-            toast: true,
-          });
-        }
-      }
+    var response = await postData("student/edit_picture", formData);
+    if (response.status) {
+      fetchstudent();
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: response.message,
+        showConfirmButton: false,
+        timer: 3000,
+        toast: true,
+      });
+      setOpen(false);
+      fetchstudent();
+    } else {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: response.message,
+        showConfirmButton: false,
+        timer: 3000,
+        toast: true,
+      });
+    }
+  }
 
 
 
@@ -442,7 +442,7 @@ export default function DisplayStudent() {
                 className={classes.headingText}
                 style={{ fontSize: 15, fontWeight: 700 }}
               >
-               Edit Student Picture
+                Edit Student Picture
               </div>
             </div>
           </Grid>
@@ -686,13 +686,13 @@ export default function DisplayStudent() {
                   value="female"
                   control={<Radio />}
                   label="Female"
-                  
+
                 />
                 <FormControlLabel
                   value="male"
                   control={<Radio />}
                   label="Male"
-                  
+
                 />
               </RadioGroup>
             </FormControl>
@@ -806,7 +806,7 @@ export default function DisplayStudent() {
               onFocus={() => handleError("current_state", null)}
             >
               <InputLabel>current State</InputLabel>
-              <Select label="current State"  onChange={handleStateChange} value={current_state}>
+              <Select label="current State" onChange={handleStateChange} value={current_state}>
                 <MenuItem>-Select State-</MenuItem>
                 {fillstate()}
               </Select>
@@ -1112,12 +1112,12 @@ export default function DisplayStudent() {
               tooltip: "Delete Student",
               onClick: (event, rowData) => handelDelete(rowData.enrollmentno),
             },
-             {
-                            icon: 'add',
-                            tooltip: 'Add Food Item',
-                            isFreeAction: true,
-                            onClick: (event) => navigate("/admindashboard/studentinterface")
-                        }
+            {
+              icon: 'add',
+              tooltip: 'Add Food Item',
+              isFreeAction: true,
+              onClick: (event) => navigate("/admindashboard/studentinterface")
+            }
           ]}
         />
       </div>

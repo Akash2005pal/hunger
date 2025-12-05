@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+
 import {
   Box,
   Grid,
@@ -9,14 +10,18 @@ import {
   Typography,
   Card,
   Chip,
-  IconButton,
-  Divider,
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  Rating
+  Rating,
 } from "@mui/material";
+
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
+// 👉 Swiper imports (only addition)
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
 
 export default function ProductDetails() {
   const [weight, setWeight] = useState("235g");
@@ -37,46 +42,84 @@ export default function ProductDetails() {
         <Grid container spacing={4}>
           {/* LEFT SIDE */}
           <Grid item xs={12} md={6}>
-            {/* Main Image */}
-            <Card
-              sx={{
-                borderRadius: 3,
-                p: 3,
-                mb: 2,
-                background: "#e7d146",
-              }}
-            >
-              <Image
-                src="/images/chips.png"
-                alt="chips"
-                width={600}
-                height={600}
-                style={{ width: "100%", height: "auto" }}
-              />
-            </Card>
 
-            {/* Gallery */}
-            <Grid container spacing={2}>
-              {[1, 2].map((x) => (
-                <Grid item xs={6} key={x}>
-                  <Card
-                    sx={{
-                      borderRadius: 3,
-                      p: 2,
-                      background: "#d8c52f",
-                    }}
-                  >
-                    <Image
-                      src="/images/chips.png"
-                      alt=""
-                      width={400}
-                      height={400}
-                      style={{ width: "100%", height: "auto" }}
-                    />
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
+            {/* ===========================
+               MOBILE SLIDER (ONLY xs)
+            ============================ */}
+            <Box sx={{ display: { xs: "block", md: "none" } }}>
+              <Swiper
+                spaceBetween={10}
+                slidesPerView={1}
+                pagination={{ clickable: true }}
+                style={{ width: "100%", borderRadius: 16 }}
+              >
+                {[1, 2, 3].map((i) => (
+                  <SwiperSlide key={i}>
+                    <Card
+                      sx={{
+                        p: 2,
+                        background: "#e7d146",
+                        borderRadius: 3,
+                      }}
+                    >
+                      <Image
+                        src="/images/chips.png"
+                        alt="chips"
+                        width={600}
+                        height={600}
+                        style={{ width: "100%", height: "auto" }}
+                      />
+                    </Card>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </Box>
+
+            {/* ===========================
+                DESKTOP / TABLET VIEW
+            ============================ */}
+            <Box sx={{ display: { xs: "none", md: "block" } }}>
+              {/* Main Image */}
+              <Card
+                sx={{
+                  borderRadius: 3,
+                  p: 3,
+                  mb: 2,
+                  background: "#e7d146",
+                }}
+              >
+                <Image
+                  src="/images/chips.png"
+                  alt="chips"
+                  width={600}
+                  height={600}
+                  style={{ width: "100%", height: "auto" }}
+                />
+              </Card>
+
+              {/* Gallery */}
+              <Grid container spacing={2}>
+                {[1, 2].map((x) => (
+                  <Grid item xs={6} key={x}>
+                    <Card
+                      sx={{
+                        borderRadius: 3,
+                        p: 2,
+                        background: "#d8c52f",
+                      }}
+                    >
+                      <Image
+                        src="/images/chips.png"
+                        alt=""
+                        width={400}
+                        height={400}
+                        style={{ width: "100%", height: "auto" }}
+                      />
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
           </Grid>
 
           {/* RIGHT SIDE */}
@@ -218,7 +261,7 @@ export default function ProductDetails() {
             {/* Try these */}
             <Typography variant="h6">Liked it? Try these!</Typography>
 
-            <Box sx={{ display: "flex", gap: 2, my: 2 }}>
+            <Box sx={{ display: "flex", gap: 2, my: 5 }}>
               <Image src="/images/samosa.png" width={80} height={80} alt="" />
               <Image src="/images/jalbi.png" width={80} height={80} alt="" />
             </Box>
@@ -229,9 +272,24 @@ export default function ProductDetails() {
             </Typography>
 
             <Box sx={{ display: "flex", gap: 3, mt: 1 }}>
-              <Image src="https://www.balajiwafers.com/cdn/shop/files/Swiggy_logo_logo-1.svg?v=1740396376" width={80} height={30} alt="" />
-              <Image src="https://www.balajiwafers.com/cdn/shop/files/Blinkit_logo-1.svg?v=1740396397" width={80} height={30} alt="" />
-              <Image src="https://www.balajiwafers.com/cdn/shop/files/Zepto_Logo_Vector-1.svg?v=1740396412" width={80} height={30} alt="" />
+              <Image
+                src="https://www.balajiwafers.com/cdn/shop/files/Swiggy_logo_logo-1.svg?v=1740396376"
+                width={80}
+                height={30}
+                alt=""
+              />
+              <Image
+                src="https://www.balajiwafers.com/cdn/shop/files/Blinkit_logo-1.svg?v=1740396397"
+                width={80}
+                height={30}
+                alt=""
+              />
+              <Image
+                src="https://www.balajiwafers.com/cdn/shop/files/Zepto_Logo_Vector-1.svg?v=1740396412"
+                width={80}
+                height={30}
+                alt=""
+              />
             </Box>
 
             <Typography sx={{ color: "#777", fontSize: 12, mt: 1 }}>
@@ -244,9 +302,7 @@ export default function ProductDetails() {
                 <Typography fontWeight={600}>Ingredients list</Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Typography>
-                  Potatoes, Vegetable Oil, Salt.
-                </Typography>
+                <Typography>Potatoes, Vegetable Oil, Salt.</Typography>
               </AccordionDetails>
             </Accordion>
 

@@ -5,7 +5,10 @@ import Category from "../components/Category"
 import FooditemCard from "../components/FooditemCard"
 import Footer from "../components/Foter"
 import Artical from "../components/Artical"
-import Mobile from "../loging/mobile"
+import Mobile from "../logingcomponents/mobilecomponent"
+import Otp from "../logingcomponents/otppage"
+import Name from "../logingcomponents/Name" 
+import User from "../logingcomponents/userpage"
 
 export default function HomePage() {
   return (<div><div >
@@ -18,8 +21,10 @@ export default function HomePage() {
     <Footer />
    <Card />
     <Mobile/>
-    
+<Otp/>
 
+<Name/>
+<User/>
   </div>
 
   </div>)

@@ -5,15 +5,22 @@ import { Box, TextField, Typography, Button, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 export default function LoginCard() {
-  const [enrollId, setEnrollId] = useState("");
   const [mobile, setMobile] = useState("");
+
+  // check if mobile number is valid (10 digits)
+  const isValid = /^[0-9]{10}$/.test(mobile);
+
+  const handleSignIn = () => {
+    if (!isValid) return;
+    alert("Sign In Successful!");
+    // navigate to OTP screen / API / anything...
+  };
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
       <Box
         sx={{
           width: 360,
-          
           bgcolor: "#fff",
           borderRadius: "20px",
           p: 4,
@@ -21,15 +28,10 @@ export default function LoginCard() {
           position: "relative",
         }}
       >
-        {/* Close Button */}
-        <IconButton
-          size="small"
-          sx={{ position: "absolute", top: 16, right: 16 }}
-        >
+        <IconButton size="small" sx={{ position: "absolute", top: 16, right: 16 }}>
           <CloseIcon />
         </IconButton>
 
-        {/* Heading */}
         <Typography variant="h5" fontWeight="700">
           Almost there!
         </Typography>
@@ -38,15 +40,7 @@ export default function LoginCard() {
           Simply sign in to place your order
         </Typography>
 
-       
-        {/* Mobile Number */}
-        <Typography
-          variant="body2"
-          mt={3}
-          mb={1}
-          fontWeight="600"
-          color="text.secondary"
-        >
+        <Typography variant="body2" mt={3} mb={1} fontWeight="600" color="text.secondary">
           Mobile Number
         </Typography>
 
@@ -54,7 +48,7 @@ export default function LoginCard() {
           fullWidth
           placeholder="+91-"
           value={mobile}
-          onChange={(e) => setMobile(e.target.value)}
+          onChange={(e) => setMobile(e.target.value.replace(/\D/g, ""))}
           sx={{
             "& .MuiOutlinedInput-root": {
               borderRadius: "12px",
@@ -62,38 +56,29 @@ export default function LoginCard() {
           }}
         />
 
-        {/* Terms */}
-        <Typography
-          variant="caption"
-          display="block"
-          color="text.secondary"
-          mt={3}
-          mb={2}
-        >
+        <Typography variant="caption" display="block" color="text.secondary" mt={3} mb={2}>
           By signing in, you agree to our{" "}
-          <span style={{ color: "#0072e6", cursor: "pointer" }}>
-            Terms and Conditions of Use
-          </span>{" "}
+          <span style={{ color: "#0072e6", cursor: "pointer" }}>Terms and Conditions of Use</span>{" "}
           and{" "}
-          <span style={{ color: "#0072e6", cursor: "pointer" }}>
-            Privacy Policy
-          </span>
-          .
+          <span style={{ color: "#0072e6", cursor: "pointer" }}>Privacy Policy</span>.
         </Typography>
 
-        {/* Button */}
         <Button
           fullWidth
           variant="contained"
-          disabled
+          onClick={handleSignIn}
+          disabled={!isValid}
           sx={{
             borderRadius: "30px",
-            bgcolor: "#cfe2f3",
-            color: "#fff",
             paddingY: 1.2,
             fontWeight: "600",
             fontSize: "16px",
-            
+            bgcolor: isValid ? "#007aff" : "#cfe2f3",
+            color: "#fff",
+            transition: "0.3s",
+            "&:hover": {
+              bgcolor: isValid ? "#0066d6" : "#cfe2f3",
+            },
           }}
         >
           Sign In

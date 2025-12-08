@@ -239,10 +239,15 @@ export default function ProductDetails() {
                   borderColor: "#00a651",
                   color: "#00a651",
                   fontWeight: 700,
+                  "&:hover": {
+                    borderColor: "#007c3c" , // darker green
+                    background: "transparent",
+                  },
                 }}
               >
                 Add to cart
               </Button>
+
 
               <Button
                 variant="contained"
@@ -252,6 +257,7 @@ export default function ProductDetails() {
                   py: 1.4,
                   background: "#00a651",
                   fontWeight: 700,
+
                 }}
               >
                 Buy it now

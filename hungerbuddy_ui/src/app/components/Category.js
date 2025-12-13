@@ -38,7 +38,7 @@ export default function CategoryComponent({ data }) {
           style={{
             cursor: "pointer",
             width: "100%",
-            display: "flex",
+            display: "flex", 
             justifyContent: "center",
             alignItems: "center",
             flexDirection: "column",

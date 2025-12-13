@@ -13,7 +13,7 @@ import { getData } from "../services/FetchNodeServices";
 
 export default function Header() {
   const [listCategory, setListCategory] = useState([]);
-
+  const [listfood,setFoodList]= useState ([])
   const fetchAllCategory = async () => {
     const response = await getData("users/fetch_all_category"); // ✔ corrected
     setListCategory(response.data);

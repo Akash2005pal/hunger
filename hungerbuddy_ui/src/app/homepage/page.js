@@ -1,31 +1,60 @@
+'use client'
+import AdvertisementComponent from "../components/Artical"
+import DrinksComponent from "../components/Drinks"
+import FoodItemCard from "../components/FooditemCard"
+import FooterComponent from "../components/Foter"
 import Header from "../components/Header"
-import SearchBar from "../components/SearchBar"
-import Card from "../components/Card"
-import Category from "../components/Category"
-import FooditemCard from "../components/FooditemCard"
-import Footer from "../components/Foter"
-import Artical from "../components/Artical"
-import Mobile from "../logingcomponents/mobilecomponent"
-import Otp from "../logingcomponents/otppage"
-import Name from "../logingcomponents/Name" 
-import User from "../logingcomponents/userpage"
+import { useState,useEffect } from "react"
+import SnacksComponent from "../components/Snacks"
+import { getData,postData,serverURL } from "../services/FetchNodeServices"
+export default function HomePage()
+{
 
-export default function HomePage() {
-  return (<div><div >
+    const [snacksList,setSnacksList]=useState([])
+    const [drinkList,setDrinkList]=useState([])
+    const [foodList,setFoodList]=useState([])
+      const fetchAllFood = async (cn) => {
+        var response = await postData("users/fetch_all_fooditems_by_category",{categoryname:cn});
+        if(cn=='Snacks')
+        setSnacksList(response.data);
+        else if(cn=="Drinks")
+        setDrinkList(response.data)    
 
-    <Header />
+      };
 
+      const fetchAllFoodItems = async () => {
+        var response = await getData("users/fetch_all_fooditems");
+     
+        setFoodList(response.data);
+     
+      };
+    
+      useEffect(function () {
+        fetchAllFood('Snacks');
+        fetchAllFood('Drinks')
+        fetchAllFoodItems()
+      }, []);
+    return(<div>
+        <div>
+        <Header />
+        </div>
+        
+        <div style={{width:'100%',display:'flex',justifyContent:'center'}}>
+        <SnacksComponent data={snacksList}/>        
+        </div> 
 
+        <div style={{width:'100%',display:'flex',justifyContent:'center'}}>
+        <DrinksComponent data={drinkList} />
+        </div> 
 
-    <FooditemCard />
-    <Footer />
-   <Card />
-    <Mobile/>
-<Otp/>
+        
+        <div>
+            <FoodItemCard data={foodList}/>
+        </div>
+        <div style={{width:'100%',display:'flex',justifyContent:'center'}}>
+            <AdvertisementComponent />
+        </div>
+        <FooterComponent/>  
 
-<Name/>
-<User/>
-  </div>
-
-  </div>)
+    </div>)
 }

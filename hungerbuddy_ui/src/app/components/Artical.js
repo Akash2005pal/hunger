@@ -28,16 +28,17 @@
 
 
 
+import { serverURL } from "../services/FetchNodeServices";
 import style from "./artical.module.css";
 
 export default function AdvertisementComponent() {
-  const serverUrl = process.env.serverUrl;
+  // const serverUrl = process.env.serverUrl;
 
   return (
     <div className={style.adparent}>
       <div className={style.adleft}>
         <img
-          src={`${serverUrl}/images/student.png`}
+          src={`${serverURL}/images/student.png`}
           className={style.adimage}
         />
       </div>

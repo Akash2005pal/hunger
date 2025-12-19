@@ -4,12 +4,12 @@ import DrinksComponent from "../components/Drinks"
 import FoodItemCard from "../components/FooditemCard"
 import FooterComponent from "../components/Foter"
 import Header from "../components/Header"
-import { useState,useEffect } from "react"
+import {useRef, useState,useEffect } from "react"
 import SnacksComponent from "../components/Snacks"
 import { getData,postData,serverURL } from "../services/FetchNodeServices"
 export default function HomePage()
 {
-
+const aboutRef = useRef(null)
     const [snacksList,setSnacksList]=useState([])
     const [drinkList,setDrinkList]=useState([])
     const [foodList,setFoodList]=useState([])
@@ -36,7 +36,7 @@ export default function HomePage()
       }, []);
     return(<div>
         <div>
-        <Header />
+        <Header dataRef={aboutRef} />
         </div>
         
         <div style={{width:'100%',display:'flex',justifyContent:'center'}}>
@@ -48,7 +48,7 @@ export default function HomePage()
         </div> 
 
         
-        <div>
+        <div ref={aboutRef}>
             <FoodItemCard data={foodList}/>
         </div>
         <div style={{width:'100%',display:'flex',justifyContent:'center'}}>

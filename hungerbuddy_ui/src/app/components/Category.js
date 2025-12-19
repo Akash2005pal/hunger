@@ -9,7 +9,7 @@ import { useTheme } from '@mui/material/styles';
 import { serverURL } from "../services/FetchNodeServices";
 
 
-export default function CategoryComponent({ data }) {
+export default function CategoryComponent({ data,dataRef }) {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -22,12 +22,13 @@ export default function CategoryComponent({ data }) {
     arrows: false
   };
 
-  const sliderRef = useRef(null);
+  const sliderRef = useRef();
   const [index, setIndex] = useState(0);
   // const serverUrl = process.env.serverUrl;
 
   const handleCategoryClick = (cid) => {
-    setIndex(cid);
+    setIndex(cid)
+    dataRef.current?.scrollIntoView({behavior:'smooth'})
   };
 
   const showCategory = () => {
@@ -68,45 +69,23 @@ export default function CategoryComponent({ data }) {
       </div>
     ));
   };
+  const handlePrevious=()=>{
+    sliderRef.current.slickPrev()
+  }
+const handleNext=()=>{
+  sliderRef.current.slickNext()
+}
 
   return (
-    <div style={{ width: "95%", position: "relative" }}>
-      {!matches && (
-        <Image
-          onClick={() => sliderRef.current.slickPrev()}
-          style={{
-            position: "absolute",
-            top: "42%",
-            zIndex: 2,
-            cursor: "pointer",
-          }}
-          src="/images/left.png"
-          width={35}
-          height={35}
-          alt=""
-        />
-      )}
+    
+<div style={{width:'95%',position:'relative'}}>
+{matches?<></>:<Image onClick={handlePrevious} style={{position:'absolute',top:'42%',zIndex:2,cursor:'pointer'}} src="/images/previous.png" width={35} height={35} alt="" />}
+  <Slider ref={sliderRef} {...settings}>
+   {showCategory()}
+   </Slider>
 
-      <Slider ref={sliderRef} {...settings}>
-        {showCategory()}
-      </Slider>
+     {matches?<></>:<Image onClick={handleNext} style={{position:'absolute',top:'42%',right:'-0.3%',zIndex:2,cursor:'pointer'}} src="/images/forward.png" width={35} height={35} alt="" />}
+     </div>
+)
 
-      {!matches && (
-        <Image
-          onClick={() => sliderRef.current.slickNext()}
-          style={{
-            position: "absolute",
-            top: "42%",
-            right: "-0.3%",
-            zIndex: 2,
-            cursor: "pointer",
-          }}
-          src="/images/next.png"
-          width={35}
-          height={35}
-          alt="" 
-        />
-      )}
-    </div>
-  );
 }

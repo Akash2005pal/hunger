@@ -103,15 +103,15 @@ const validation=()=>{
       iserror=true
     }
 
-    if(halfPrice.length==0){
-      setError((prev)=>({...prev,halfPrice:"Half Price is required"}))
-      iserror=true
-    }
+    // if(halfPrice.length==0){
+    //   setError((prev)=>({...prev,halfPrice:"Half Price is required"}))
+    //   iserror=true
+    // }
 
-    if(offerPrice.length==0){
-      setError((prev)=>({...prev,offerPrice:"Offer Price is required"}))
-      iserror=true
-    }
+    // if(offerPrice.length==0){
+    //   setError((prev)=>({...prev,offerPrice:"Offer Price is required"}))
+    //   iserror=true
+    // }
 
     if(status.length==0){
       setError((prev)=>({...prev,status:"Status is required"}))
@@ -398,9 +398,9 @@ const fillCategories=()=>{
                         label="Half Price"
                         fullWidth
                         value={halfPrice}
-                        helperText={error?.halfPrice}
-                        error={error?.halfPrice}
-                        onFocus={()=>handleError('halfPrice','')}
+                        // helperText={error?.halfPrice}
+                        // error={error?.halfPrice}
+                        // onFocus={()=>handleError('halfPrice','')}
                         size="small"
                       />
                     </div>
@@ -414,9 +414,9 @@ const fillCategories=()=>{
                         label="Offer Price"
                         fullWidth
                         value={offerPrice}
-                        helperText={error?.offerPrice}
-                        error={error?.offerPrice}
-                        onFocus={()=>handleError('offerPrice','')}
+                        // helperText={error?.offerPrice}
+                        // error={error?.offerPrice}
+                        // onFocus={()=>handleError('offerPrice','')}
                         size="small"
                       />
                     </div>

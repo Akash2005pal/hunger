@@ -1,25 +1,23 @@
 "use client";
-import { MoveLeft } from "lucide-react";
+
 import styles from "./Header.module.css";
 import User from "./user";
 import Image from "next/image";
 import CategoryComponent from "./Category";
 import SearchBar from "./SearchBar";
-import DrinksComponent from "./Drinks";
-import SnacksComponent from "./Snacks";
-import Artical from "./Artical";
+
 import { useEffect, useState } from "react";
 import { getData } from "../services/FetchNodeServices";
 
-export default function Header() {
-  const [listCategory, setListCategory] = useState([]);
-  const [listfood,setFoodList]= useState ([])
+export default function Header({dataRef}) {
+  const [categoryList, setCategoryList] = useState([]);
+  
   const fetchAllCategory = async () => {
     const response = await getData("users/fetch_all_category"); // ✔ corrected
-    setListCategory(response.data);
+    setCategoryList(response.data);
   };
 
-  useEffect(() => {
+  useEffect(function()  {
     fetchAllCategory();
   }, []);
 
@@ -43,19 +41,13 @@ export default function Header() {
         <SearchBar />
       </div>
 
-      <Artical />
+     
 
       <div style={{ width: "100%", display: "flex", justifyContent: "center", marginBottom: "30px" }}>
-        <CategoryComponent data={listCategory} />
+        <CategoryComponent dataRef={dataRef} data={categoryList} />
       </div>
 
-      <div style={{ width: "100%", display: "flex", justifyContent: "center", marginBottom: "30px" }}>
-        <DrinksComponent />
-      </div>
-
-      <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-        <SnacksComponent />
-      </div>
+      
     </div>
   );
 }

@@ -9,7 +9,7 @@ import { useTheme } from '@mui/material/styles';
 import { serverURL } from "../services/FetchNodeServices";
 
 
-export default function DrinksComponent()
+export default function DrinksComponent({data})
 {  const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('md'));
   var settings = {
@@ -22,29 +22,20 @@ export default function DrinksComponent()
   };
    const sliderRef=useRef()
    const [index,setIndex]=useState(0)
-  const serverUrl=process.env.serverUrl
-   var data=[{categoryid:1,categoryname:'Coca Cola',icon:'coca.png'},
-    {categoryid:2,categoryname:'Frooti',icon:'frooti.png'},
-    {categoryid:3,categoryname:'Miranda',icon:'miranda.png'},
-    {categoryid:4,categoryname:'RealJose',icon:'realjose.png'},
-    {categoryid:5,categoryname:'Red Bull',icon:'redbull.png'},
-    {categoryid:2,categoryname:'Frooti',icon:'frooti.png'},
-    {categoryid:3,categoryname:'Miranda',icon:'miranda.png'},
-     {categoryid:2,categoryname:'Frooti',icon:'frooti.png'},
-    {categoryid:3,categoryname:'Miranda',icon:'miranda.png'},
-   ]
+
    const handleCategoryClick=(cid)=>{
     setIndex(cid)
-
    }
+
+  
  function showCategory(){
   return data?.map((item)=>{
     return(<div  >
-     <div onClick={()=>handleCategoryClick(item.categoryid)}  style={{cursor:'pointer', width:'100%',display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'column',borderBottom:item.categoryid==index?'4px solid red':''}}>
+     <div onClick={()=>handleCategoryClick(item.fooditemid)}  style={{cursor:'pointer', width:'100%',display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'column',borderBottom:item.fooditemid==index?'4px solid red':''}}>
      <div style={{display:'flex',alignItems:'center',justifyContent:'center',width:'70%',height:'70%',borderRadius:'50%'}}>
-     <img style={{width:'100%'}} src={`${serverURL}/images/${item.icon}`}/>
+     <img style={{width:'100%'}} src={`${serverURL}/images/${item.picture}`}/>
      </div>
-     <div style={{fontSize:matches?'0.7rem':'1rem'}}>{item.categoryname}</div>
+     <div style={{fontSize:matches?'0.7rem':'1rem'}}>{item.fooditemname}</div>
      </div>
   
    </div>)
@@ -62,12 +53,12 @@ return(
 
 <div style={{width:'95%',position:'relative'}}>
    <div style={{fontSize:20,fontWeight:'bold',marginBottom:10,marginLeft:'6px'}}>Drinks</div>
-{matches?<></>:<Image onClick={handlePrevious} style={{position:'absolute',top:'42%',zIndex:2,cursor:'pointer'}} src="/images/left.png" width={35} height={35} alt="" />}
+{matches?<></>:<Image onClick={handlePrevious} style={{position:'absolute',top:'42%',zIndex:2,cursor:'pointer'}} src="/images/previous.png" width={35} height={35} alt="" />}
   <Slider ref={sliderRef} {...settings}>
    {showCategory()}
    </Slider>
 
-     {matches?<></>:<Image onClick={handleNext} style={{position:'absolute',top:'42%',right:'-0.3%',zIndex:2,cursor:'pointer'}} src="/images/next.png" width={35} height={35} alt="" />}
+     {matches?<></>:<Image onClick={handleNext} style={{position:'absolute',top:'42%',right:'-0.3%',zIndex:2,cursor:'pointer'}} src="/images/forward.png" width={35} height={35} alt="" />}
      </div>
 )
 

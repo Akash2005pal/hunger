@@ -15,60 +15,34 @@ export default function ProductInfoComponent({data}) {
     return (
         <div style={{
             display: 'flex',
-            width: matches ? "100%" : "40%",
-            marginLeft: matches ? -46 : "59%",
-            marginTop: matches ? -50 : 40,
-            padding: matches ? "20px" : "0",
-            justifyContent: matches ? "center" : "flex-start"
+            flexDirection:'column'
+        
         }}>
-            <div style={{ 
-                width: matches ? "100%" : "100%",
-                maxWidth: matches ? "500px" : "100%"
-            }}>
                 
-                <Accordion style={{ 
-                    background: 'transparent',
-                    boxShadow: 'none',
-                    border: 'none'
-                }}>
-                    <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel1-content"
-                        id="panel1-header"
-                      
-                    >
-                        <Typography component="span" style={{
-                            display: 'flex',
-                            fontSize: matches ? "16px" : "18px",
-                            fontFamily: 'poppins',
-                            fontWeight: 400
-                        }}>
-                            Ingredients list
-                        </Typography>
-                    </AccordionSummary>
-                    <AccordionDetails style={{ paddingLeft: 0 }}>
-                        
-                        {data?.ingredients}
-                    </AccordionDetails>
-                </Accordion>
-
+           <Accordion style={{ boxShadow:'none',borderBottom:'1px solid #A9A9A9', background: "#F3ECF7"}}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1-content"
+          id="panel1-header"
+        >
+          <Typography component="span" style={{
+                display:'flex',
+                fontWeight:400,
+                fontSize: 20,
+                 fontFamily: 'poppins',
                 
-               
-            
-               <Divider style={{ 
-                    marginTop: matches ? 20 : 30,
-                    backgroundColor: "#cebdd8ff",
-                    width: matches ? "93%" : "40%",
-                    position:'absolute'
-                }} />
+            }}>Ingredients</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+                {data?.ingredients}
+        </AccordionDetails>
+      </Accordion>
+    
+              
 
 
                 <div style={{ marginTop: matches ? "4%" : "5%" }}>
-                    <Accordion style={{ 
-                        background: 'transparent',
-                        boxShadow: 'none',
-                        border: 'none'
-                    }}>
+                    <Accordion style={{ boxShadow:'none',borderBottom:'1px solid #A9A9A9', background: "#F3ECF7"}}>
                         <AccordionSummary
                         
                             expandIcon={<ExpandMoreIcon />}
@@ -77,7 +51,7 @@ export default function ProductInfoComponent({data}) {
                         >
                             <Typography component="span" style={{
                                 display: 'flex',
-                                fontSize: matches ? "16px" : "18px",
+                                fontSize: 20,
                                 fontFamily: 'poppins',
                                 fontWeight: 400
                             }}>
@@ -97,6 +71,6 @@ export default function ProductInfoComponent({data}) {
                     </Accordion>
                 </div>
             </div>
-        </div>
+        
     )
 }

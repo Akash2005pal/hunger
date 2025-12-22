@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ScrollProductList from "./ScrollProductList";
 
 // 👉 Swiper imports (only addition)
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -268,8 +269,7 @@ export default function ProductDetails() {
             <Typography variant="h6">Liked it? Try these!</Typography>
 
             <Box sx={{ display: "flex", gap: 2, my: 5 }}>
-              <Image src="/images/samosa.png" width={80} height={80} alt="" />
-              <Image src="/images/jalbi.png" width={80} height={80} alt="" />
+              <ScrollProductList/>
             </Box>
 
             {/* Available on */}

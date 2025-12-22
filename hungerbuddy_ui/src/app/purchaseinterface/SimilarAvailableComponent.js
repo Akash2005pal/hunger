@@ -86,7 +86,7 @@ export default function SimilarAvailableComponent({data}){
                 flexWrap: matches ? "wrap" : "nowrap"
             }}>
             {withoutSlider()}
-            </div>:<div style={{width:"75%"}} ><ScrollProductList data={data}/></div>}
+            </div>:<div style={{width:"90%"}} ><ScrollProductList data={data}/></div>}
 
 
 

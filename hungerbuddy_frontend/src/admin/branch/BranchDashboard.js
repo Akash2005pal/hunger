@@ -13,7 +13,7 @@ import Logout from '../../assets/check-out.png';
 import Order from '../../assets/order.png';
 import FoodDisplayAll from "../../admin/fooditem/FoodDisplayAll"
 import FoodItem from "../../admin/fooditem/FoodItem"
-
+import PictureInterface from "../morepicture/PictureInterface"
 import dashboard from '../../assets/dashboard.png';
 import Category from "../category/Category";
 import { Route,Routes } from "react-router-dom";
@@ -54,6 +54,15 @@ export default function BranchDashboard()
           
         </ListItemAvatar>
         <ListItemText primary={<div style={{fontFamily:'Quicksand'}}>Food Items</div>} />
+      </ListItemButton>
+
+
+ <ListItemButton onClick={()=>navigate('/branchdashboard/pictureinterface')}>
+        <ListItemAvatar>
+    <Avatar src={fooditems}  sx={{ width: 28, height: 28 }} variant="rounded" />
+          
+        </ListItemAvatar>
+        <ListItemText primary={<div style={{fontFamily:'Quicksand'}}>Multiple Picture</div>} />
       </ListItemButton>
 
       
@@ -99,6 +108,7 @@ export default function BranchDashboard()
                   <Route element={<Category />} path="/category" />
                   <Route element={<FoodDisplayAll />} path="/fooddisplayall" />
                   <Route element={<FoodItem />} path="/fooditem" />
+                  <Route element={<PictureInterface/>} path="/pictureinterface"/>
                  </Routes>
                 </Grid>
 

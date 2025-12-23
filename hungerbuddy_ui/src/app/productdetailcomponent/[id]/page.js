@@ -152,6 +152,7 @@ fetchAllFoodPicture()
         borderRadius: matches ? 0 : 20,
         marginLeft: matches ? "0" : "2%",
         marginTop: matches ? 0 : 20,
+
         padding:40
       }}>
 

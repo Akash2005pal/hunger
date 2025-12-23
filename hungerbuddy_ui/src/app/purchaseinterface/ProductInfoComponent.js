@@ -34,7 +34,7 @@ export default function ProductInfoComponent({data}) {
             }}>Ingredients</Typography>
         </AccordionSummary>
         <AccordionDetails>
-                {data?.ingredients}
+                {data?.ingridients}
         </AccordionDetails>
       </Accordion>
     

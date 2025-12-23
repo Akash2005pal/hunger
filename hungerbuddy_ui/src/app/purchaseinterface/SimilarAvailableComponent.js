@@ -126,7 +126,7 @@ export default function SimilarAvailableComponent({data}){
                         height: matches ? '30px' : '40px',
                         width: 'auto'
                     }} 
-                    src={`${serverURL}/images/blinkit.png`}
+                    src={`${serverURL}/images/li.png`}
                     alt="blinkit"
                 />
                 <img 

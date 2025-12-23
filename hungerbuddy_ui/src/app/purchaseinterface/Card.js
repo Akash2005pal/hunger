@@ -125,7 +125,7 @@ export default function ProductDetails() {
 
           {/* RIGHT SIDE */}
           <Grid item xs={12} md={6}>
-            <Rating name="size-medium" defaultValue={2} />
+            <Rating name="size-medium" defaultValue={2} value={Rating} />
 
             <Typography sx={{ color: "#777", fontSize: "0.9rem" }}>
               Snacks

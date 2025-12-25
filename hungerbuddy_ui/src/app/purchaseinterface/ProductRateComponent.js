@@ -28,7 +28,7 @@ export default function ProductRateComponent({data}) {
         <div style={{ display: "flex", flexDirection: "row", gap: 4 }}>
           <Rating
         name="simple-controlled"
-        value={parseInt(data?.rating)}
+        value={parseInt(data?.ratings)}
         
       />
         </div>
@@ -40,7 +40,7 @@ export default function ProductRateComponent({data}) {
             zIndex: 1,
           }}
         >
-          ({data?.rating})
+          ({data?.ratings})
         </div>
       </div>
 

@@ -122,20 +122,20 @@ export default  function ProductDetailComponent() {
   }
 
   const fetchAllFoodByCategoryId = async (cn) => {
-        var response = await postData("users/fetch_all_fooditems_by_category_id",{categoryid:cn});
+        var response = await postData("users/fetch_all_fooditems_by_category_id",{categoryname:cn});
        //  alert(JSON.stringify(response.data))
         setCategoryList(response.data) 
       };
 
-      const fetchAllFoodPicture = async () => {
-        var response = await postData("picture/fetch_all_picture",{fooditemid:id});
-        alert(JSON.stringify(response.data))
-        setPictureList(response.data) 
-      };
+      // const fetchAllFoodPicture = async () => {
+      //   var response = await postData("picture/fetch_all_picture",{fooditemid:id});
+      //   // alert(JSON.stringify(response.data))
+      //   setPictureList(response.data) 
+      // };
 
 useEffect(function(){
 fetchFoodDetails()
-fetchAllFoodPicture()
+// fetchAllFoodPicture()
   },[id])
 
   return (

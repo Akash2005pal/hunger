@@ -63,7 +63,7 @@ router.post('/fetch_all_fooditems_by_category_id', function (req, res) {
     'select F.*,' +
     '(select B.branchname from branch B where B.branchid=F.branchid) as branchname,' +
     '(select C.categoryname from foodcategory C where C.categoryid=F.categoryid) as categoryname ' +
-    'from fooditems F where F.categoryid=?',
+    'from fooditems F ',
     [req.body.categoryid],
     function (error, result) {
       if (error) {

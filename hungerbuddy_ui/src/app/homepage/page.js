@@ -14,7 +14,7 @@ const aboutRef = useRef(null)
     const [drinkList,setDrinkList]=useState([])
     const [foodList,setFoodList]=useState([])
       const fetchAllFood = async (cn) => {
-        var response = await postData("users/fetch_all_fooditems_by_category",{categoryname:cn});
+        var response = await postData("users/fetch_all_fooditems_by_category_id",{categoryid:cn});
         if(cn=='Snacks')
         setSnacksList(response.data);
         else if(cn=="Drinks")

@@ -7,10 +7,12 @@ import { useRef, useState } from "react";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { serverURL } from "../services/FetchNodeServices"
+import { useRouter } from "next/navigation";
 
 
 export default function SnacksComponent({ data }) {
   const theme = useTheme();
+    var navigate=useRouter()
   const matches = useMediaQuery(theme.breakpoints.down('md'));
   var settings = {
     dots: false,
@@ -26,6 +28,7 @@ export default function SnacksComponent({ data }) {
 
   const handleCategoryClick = (cid) => {
     setIndex(cid)
+    navigate.push(`/productdetailcomponent/${cid}`)
 
   }
   function showCategory() {

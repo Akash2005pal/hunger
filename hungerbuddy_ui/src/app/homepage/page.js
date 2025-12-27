@@ -7,6 +7,7 @@ import Header from "../components/Header"
 import {useRef, useState,useEffect } from "react"
 import SnacksComponent from "../components/Snacks"
 import { getData,postData,serverURL } from "../services/FetchNodeServices"
+import ScrollProductList from "../purchaseinterface/ScrollProductList"
 export default function HomePage()
 {
 const aboutRef = useRef(null)
@@ -14,7 +15,7 @@ const aboutRef = useRef(null)
     const [drinkList,setDrinkList]=useState([])
     const [foodList,setFoodList]=useState([])
       const fetchAllFood = async (cn) => {
-        var response = await postData("users/fetch_all_fooditems_by_category_id",{categoryid:cn});
+        var response = await postData("users/fetch_all_fooditems_by_category",{categoryname:cn});
         if(cn=='Snacks')
         setSnacksList(response.data);
         else if(cn=="Drinks")
@@ -36,7 +37,7 @@ const aboutRef = useRef(null)
       }, []);
     return(<div>
         <div>
-        <Header dataRef={aboutRef} />
+        <Header dataRef={aboutRef} foodList={foodList} setFoodList={setFoodList}/>
         </div>
         
         <div style={{width:'100%',display:'flex',justifyContent:'center'}}>
@@ -50,6 +51,9 @@ const aboutRef = useRef(null)
         
         <div ref={aboutRef}>
             <FoodItemCard data={foodList}/>
+        </div>
+        <div style={{width:'20%'}}>
+          <ScrollProductList  />
         </div>
         <div style={{width:'100%',display:'flex',justifyContent:'center'}}>
             <AdvertisementComponent />

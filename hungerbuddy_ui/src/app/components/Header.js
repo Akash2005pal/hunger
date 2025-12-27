@@ -8,10 +8,14 @@ import SearchBar from "./SearchBar";
 
 import { useEffect, useState } from "react";
 import { getData } from "../services/FetchNodeServices";
+import {useSelector} from "react-redux"
 
-export default function Header({dataRef}) {
+export default function Header({dataRef,foodList,setFoodList}) {
   const [categoryList, setCategoryList] = useState([]);
-  
+  var cart=useSelector((state)=>state.cart)
+  var totalItems=Object.keys(cart)
+  var total=totalItems?.length
+  console.log("Total:",total)
   const fetchAllCategory = async () => {
     const response = await getData("users/fetch_all_category"); // ✔ corrected
     setCategoryList(response.data);
@@ -34,7 +38,7 @@ export default function Header({dataRef}) {
             </div>
           </div>
         </div>
-        <User />
+        <User totalItems={total}/>
       </div>
 
       <div style={{ width: "100%", display: "flex", justifyContent: "center", marginBottom: "10px" }}>
@@ -44,7 +48,7 @@ export default function Header({dataRef}) {
      
 
       <div style={{ width: "100%", display: "flex", justifyContent: "center", marginBottom: "30px" }}>
-        <CategoryComponent dataRef={dataRef} data={categoryList} />
+        <CategoryComponent dataRef={dataRef} data={categoryList}  foodList={foodList} setFoodList={setFoodList}/>
       </div>
 
       

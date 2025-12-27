@@ -8,9 +8,10 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { serverURL } from "../services/FetchNodeServices";
 
-
+import { useRouter } from "next/navigation";
 export default function DrinksComponent({data})
 {  const theme = useTheme();
+  var navigate=useRouter()
   const matches = useMediaQuery(theme.breakpoints.down('md'));
   var settings = {
     dots: false,
@@ -23,8 +24,10 @@ export default function DrinksComponent({data})
    const sliderRef=useRef()
    const [index,setIndex]=useState(0)
 
-   const handleCategoryClick=(cid)=>{
-    setIndex(cid)
+   const handleCategoryClick=(fid)=>{
+    setIndex(fid)
+    navigate.push(`/productdetailcomponent/${fid}`)
+  
    }
 
   
@@ -51,8 +54,8 @@ const handleNext=()=>{
 return(
 
 
-<div style={{width:'95%',position:'relative'}}>
-   <div style={{fontSize:20,fontWeight:'bold',marginBottom:10,marginLeft:'6px'}}>Drinks</div>
+<div style={{width:'95%',position:'relative',marginTop:40}}>
+   <div style={{fontSize:20,fontWeight:'bold',marginBottom:10,marginLeft:'4%'}}>Drinks</div>
 {matches?<></>:<Image onClick={handlePrevious} style={{position:'absolute',top:'42%',zIndex:2,cursor:'pointer'}} src="/images/previous.png" width={35} height={35} alt="" />}
   <Slider ref={sliderRef} {...settings}>
    {showCategory()}

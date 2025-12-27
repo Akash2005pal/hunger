@@ -83,7 +83,6 @@
 
 
 ///second /// 
-
 "use client";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -94,16 +93,19 @@ import ProductRateComponent from "../../purchaseinterface/ProductRateComponent";
 import SimilarAvailableComponent from "../../purchaseinterface/SimilarAvailableComponent";
 import { useParams } from "next/navigation";
 import { useEffect,useRef,useState } from "react";
-import { postData } from "../../services/FetchNodeServices";
-import FooterComponent from "../../components/Foter";
-import Header from "../../components/Header";
+import { postData } from "@/app/services/FetchNodeServices";
+import FooterComponent from "@/app/components/Foter";
+import Header from "@/app/components/Header";
 import { Grid } from "@mui/material";
+import { useSelector } from "react-redux";
 export default  function ProductDetailComponent() {
     var params=useParams()
     const {id}=useParams()
+    var cart=useSelector((state)=>state.cart)
     const [foodItem,setFoodItem]=useState({})
     const [categoryList,setCategoryList]=useState([])
         const [pictureList,setPictureList]=useState([])
+    const [refresh,setRefresh]=useState(false)
    const aboutRef=useRef()    
    const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("md"));
@@ -112,30 +114,45 @@ export default  function ProductDetailComponent() {
 
   const fetchFoodDetails=async()=>{
         
-        var response = await postData("users/fetch_all_fooditems_by_id",{fooditemid:id});
+      
         
         //alert(JSON.stringify(response.data))
+        var cartkeys=Object.keys(cart)
+        var data={}
+        if(cartkeys.includes(id))
+        { 
+           data=cart[id]
+          setFoodItem(data)
+          //alert("cart m h")
+
+        }  
+        else
+        {
+        //alert('nahi h')  
+        var response = await postData("users/fetch_all_fooditems_by_id",{fooditemid:id});
+         data=response.data
+        data['qty']=0  
+        setFoodItem(data)    
+        }
         
-        setFoodItem(response.data)    
-        
-        await fetchAllFoodByCategoryId(response.data.categoryid)
+        await fetchAllFoodByCategoryId(data?.categoryid)
   }
 
   const fetchAllFoodByCategoryId = async (cn) => {
-        var response = await postData("users/fetch_all_fooditems_by_category_id",{categoryname:cn});
+        var response = await postData("users/fetch_all_fooditems_by_category_id",{categoryid:cn});
        //  alert(JSON.stringify(response.data))
         setCategoryList(response.data) 
       };
 
-      // const fetchAllFoodPicture = async () => {
-      //   var response = await postData("picture/fetch_all_picture",{fooditemid:id});
-      //   // alert(JSON.stringify(response.data))
-      //   setPictureList(response.data) 
-      // };
+      const fetchAllFoodPicture = async () => {
+        var response = await postData("picture/fetch_all_picture",{fooditemid:id});
+       // alert(JSON.stringify(response.data))
+        setPictureList(response.data) 
+      };
 
 useEffect(function(){
 fetchFoodDetails()
-// fetchAllFoodPicture()
+fetchAllFoodPicture()
   },[id])
 
   return (
@@ -152,20 +169,19 @@ fetchFoodDetails()
         borderRadius: matches ? 0 : 20,
         marginLeft: matches ? "0" : "2%",
         marginTop: matches ? 0 : 20,
-
         padding:40
       }}>
 
         <Grid container spacing={2}>
         <Grid size={6} >
-          <ProductImageComponent data={foodItem}  /> 
+          <ProductImageComponent data={foodItem} pictures={pictureList} /> 
         </Grid>
         <Grid size={6} style={{padding:40}}>
               <div>
               <ProductRateComponent data={foodItem}  />
               </div>
               <div>
-              <AddToCartComponent data={foodItem} />
+              <AddToCartComponent data={foodItem} refresh={refresh} setRefresh={setRefresh} />
               </div>
               <div style={{width:'100%'}}>
                 <SimilarAvailableComponent data={categoryList} />
@@ -178,7 +194,6 @@ fetchFoodDetails()
       </Grid>
     
       </div>
-<FooterComponent/>
       </div>
       
      

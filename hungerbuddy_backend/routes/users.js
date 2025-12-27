@@ -104,7 +104,7 @@ router.post('/fetch_all_fooditems_by_id', function (req, res) {
           message: 'success',
           data: result[0]   // ✅ single object
         });
-      }
+      }1   
     }
   );
 });

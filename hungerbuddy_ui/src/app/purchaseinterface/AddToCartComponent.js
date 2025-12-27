@@ -4,31 +4,54 @@ import Image from "next/image";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { Divider } from "@mui/material";
-
-export default function AddToCartComponent({ data }) {
+import { useDispatch } from "react-redux";
+export default function AddToCartComponent({ data,refresh,setRefresh }) {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("md"));
 
   const [hovered, setHovered] = useState(null);
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(data.qty);
   const [weight, setWeight] = useState();
 
-  const handleClick = () => {
+  var dispatch=useDispatch()
+
+  const handleAddClick = () => {
     var q = quantity;
     q++;
+    data['qty']=q
     setQuantity(q);
+    dispatch({type:"ADD_CART",payload:[data.fooditemid,data]})
+    setRefresh(!refresh)
   };
+
+  const handleMinusClick = () => {
+    var q = quantity
+    q--
+    if(q==0)
+    {
+      dispatch({type:"DELETE_CART",payload:[data.fooditemid,data]})
+      setQuantity(q)
+    }
+    else
+    {
+      q--
+      data['qty']=q
+      setQuantity(q)
+      dispatch({type:"ADD_CART",payload:[data.fooditemid,data]})
+    }
+    setRefresh(!refresh)
+  }
   useEffect(
     function () {
       setWeight(data?.offerprice > 0 ? data?.offerprice : data?.fullprice);
     },
     [data?.fooditemid]
   );
+  useEffect(function(){
+    setQuantity(data.qty)
+  },[data.qty])
 
-  const addQuantity = () => setQuantity(quantity + 1);
-  const subQuantity = () => {
-    if (quantity >= 0) setQuantity(quantity - 1);
-  };
+ 
 
   const weightOptions = [
     data?.offerprice > 0 ? data?.offerprice : data?.fullprice,
@@ -170,7 +193,7 @@ export default function AddToCartComponent({ data }) {
               }}
             >
               <button
-                onClick={subQuantity}
+                onClick={handleMinusClick}
                 style={{
                   cursor: "pointer",
                   borderRadius: "50%",
@@ -203,7 +226,7 @@ export default function AddToCartComponent({ data }) {
               </span>
 
               <button
-                onClick={addQuantity}
+                onClick={handleAddClick}
                 style={{
                   cursor: "pointer",
                   borderRadius: "50%",

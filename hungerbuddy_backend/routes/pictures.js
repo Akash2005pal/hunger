@@ -1,40 +1,103 @@
 var express = require('express');
 var router = express.Router();
-var upload = require('./multer');
 var pool = require('./pool');
+var upload = require("./multer");
 
-/* UPLOAD MULTIPLE FOOD IMAGES */
 router.post(
-  '/upload_food_images',
-  upload.array('pictures', 10), // ✅ SAME AS FRONTEND
-  function (req, res) {
-
+  "/submit_picture",
+  upload.any(),
+  function (req, res, next) {
+     console.log(req.body);
     try {
-        console.log(req.body)
-      const { categoryid, fooditemid } = req.body;
+      var files=req.files.map((item)=>{
+        return item.filename
+      })
+     
+      pool.query(
+        "insert into morepicture(categoryid,foodid,picture,createddate,createdtime,userid)values(?,?,?,?,?,?)",
+        [
+          req.body.categoryid,
+          req.body.foodid,
+           files+"",
+          req.body.createddate,
+          req.body.createdtime,
+          req.body.userid,
+         
+          req.body.createddate,
 
-      req.files.forEach((file) => {
-        pool.query(
-          `INSERT INTO morepictures
-          (categoryid, fooditemid, picture)
-          VALUES (?,?,?)`,
-          [categoryid, fooditemid, file.filename]
-        );
-      });
-
-      res.status(200).json({
-        status: true,
-        message: 'Images uploaded successfully'
-      });
-
+        ],
+        function (error, result) {
+          if (error) {
+            console.log(error);
+            res.status(500).json({
+              status: false,
+              message: "error in database contach to the admin",
+            });
+          } else {
+            res
+              .status(200)
+              .json({ status: true, message: "Picture Uploaded Successfully" });
+          }
+        }
+      );
     } catch (e) {
-      console.log(e);
       res.status(500).json({
         status: false,
-        message: 'Critical Error Please Contact Backend Team....'
+        message: "error in database contach to the admin",
       });
     }
   }
 );
+
+
+router.get("/fetch_fooditem/:categoryid", function (req, res) {
+  const categoryid = req.params.categoryid;
+
+  pool.query(
+    "SELECT * FROM fooditems WHERE categoryid = ?",
+    [categoryid],
+    function (error, result) {
+      if (error) {
+        console.log(error);
+        res.status(500).json({
+          status: false,
+          message: "Database Error Please Contact Backend Team...",
+        });
+      } else {
+        res
+          .status(200)
+          .json({ status: true, message: "Success", data: result });
+      }
+    }
+  );
+});
+
+
+router.post("/fetch_all_picture", function (req, res, next) {
+  try {
+    pool.query("select * from picture where foodid=?",[req.body.foodid], function (error, result) {
+      if (error) {
+        console.log(error);
+        res.status(500).json({
+          status: false,
+          message: "error in database contach to the admin",
+        });
+      } else {
+        res
+          .status(200)
+          .json({
+            data: result[0],
+            status: true,
+            message: "Category fetched Successfully",
+          });
+      }
+    });
+  } catch (e) {
+    res.status(500).json({
+      status: false,
+      message: "error in database contach to the admin",
+    });
+  }
+});
 
 module.exports = router;

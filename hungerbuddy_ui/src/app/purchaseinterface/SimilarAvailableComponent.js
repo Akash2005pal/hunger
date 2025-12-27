@@ -117,7 +117,7 @@ export default function SimilarAvailableComponent({data}){
                         height: matches ? '30px' : '40px',
                         width: 'auto'
                     }} 
-                    src={`${serverURL}/images/swiggy.png`}
+                    src={"https://www.balajiwafers.com/cdn/shop/files/Swiggy_logo_logo-1.svg?v=1740396376"}
                     alt="swiggy"
                 />
                 <img 
@@ -126,7 +126,7 @@ export default function SimilarAvailableComponent({data}){
                         height: matches ? '30px' : '40px',
                         width: 'auto'
                     }} 
-                    src={`${serverURL}/images/li.png`}
+                    src={"https://www.balajiwafers.com/cdn/shop/files/Blinkit_logo-1.svg?v=1740396397"}
                     alt="blinkit"
                 />
                 <img 
@@ -135,7 +135,7 @@ export default function SimilarAvailableComponent({data}){
                         height: matches ? '30px' : '40px',
                         width: 'auto'
                     }} 
-                    src={`${serverURL}/images/zepto.png`}
+                    src={"https://www.balajiwafers.com/cdn/shop/files/Zepto_Logo_Vector-1.svg?v=1740396412"}
                     alt="zepto"
                 />
             </div>

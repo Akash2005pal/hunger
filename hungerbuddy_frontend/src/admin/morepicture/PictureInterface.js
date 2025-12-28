@@ -152,7 +152,7 @@ export default function PictureInterface({ refresh, setRefresh }) {
       formData.append("userid", 'xxxxx');
 
       //var body={categoryid:categoryIcon,categoryname:categoryName}
-      var response = await postData('picture/submit_picture', formData)
+      var response = await postData('pictures/submit_picture', formData)
       if (response.status) {
         Swal.fire({
           position: "center",

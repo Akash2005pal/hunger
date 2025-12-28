@@ -145,7 +145,7 @@ export default  function ProductDetailComponent() {
       };
 
       const fetchAllFoodPicture = async () => {
-        var response = await postData("picture/fetch_all_picture",{fooditemid:id});
+        var response = await postData("pictures/fetch_all_picture",{fooditemid:id});
        // alert(JSON.stringify(response.data))
         setPictureList(response.data) 
       };

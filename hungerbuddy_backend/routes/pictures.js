@@ -7,17 +7,18 @@ router.post(
   "/submit_picture",
   upload.any(),
   function (req, res, next) {
-     console.log(req.body);
+     
     try {
+      console.log(req.body);
       var files=req.files.map((item)=>{
         return item.filename
       })
      
       pool.query(
-        "insert into morepicture(categoryid,foodid,picture,createddate,createdtime,userid)values(?,?,?,?,?,?)",
+        "insert into morepictures(categoryid,fooditemid,picture,createddate,createdtime,userid)values(?,?,?,?,?,?)",
         [
           req.body.categoryid,
-          req.body.foodid,
+          req.body.fooditemid,
            files+"",
           req.body.createddate,
           req.body.createdtime,
@@ -75,7 +76,7 @@ router.get("/fetch_fooditem/:categoryid", function (req, res) {
 
 router.post("/fetch_all_picture", function (req, res, next) {
   try {
-    pool.query("select * from picture where foodid=?",[req.body.foodid], function (error, result) {
+    pool.query("select * from morepictures where fooditemid=?",[req.body.fooditemid], function (error, result) {
       if (error) {
         console.log(error);
         res.status(500).json({

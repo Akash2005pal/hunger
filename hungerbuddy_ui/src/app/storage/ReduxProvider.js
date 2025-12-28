@@ -4,8 +4,9 @@ import { Provider } from "react-redux"
 import { createStore } from "redux"
 var store=createStore(RootReducer)
 export default function ReduxProvider({children})
-{
+{console.log("redux Provider Mounted")
     return(<Provider store={store}>
+        
         {children}
     </Provider>)
 }

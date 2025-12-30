@@ -74,7 +74,7 @@ export default function SimilarAvailableComponent({data}){
             }}>
                 Liked it? Try these!
             </div> 
-          {data.length<=3?
+          {data?.length<=3?
             <div style={{
                 display:'flex',
                 flexDirection:'row',

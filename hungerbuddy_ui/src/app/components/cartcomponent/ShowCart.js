@@ -157,7 +157,8 @@ export default function ShowCart({ items }) {
                     ) : (
                       <div style={{display:'flex',width:'95%'}}>
                         <span className={styles.currentPrice}>
-                          ₹{item.offerprice.toFixed(2)}/unit
+                         ₹{item.offerprice.toFixed(2)}/unit
+
                         </span>
                         <span className={styles.originalPrice}>
                           ₹{item.fullprice.toFixed(2)}/unit

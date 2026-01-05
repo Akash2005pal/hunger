@@ -2,6 +2,7 @@
 import React from "react";
 import { Button } from "@mui/material";
 import Grid from "@mui/material/Grid";
+
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import ShowCart from "../components/cartcomponent/ShowCart";
@@ -10,12 +11,16 @@ import CouponComponent from "../components/cartcomponent/CouponComponent";
 import CounterComponent from "../components/cartcomponent/CounterComponent";
 import styles from "./cart.module.css";
 import { useSelector } from "react-redux";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 export default function CartPage() {
   const theme = useTheme();
+  const navigate=useRouter()
   var cart=useSelector((state)=>state.cart)
   var products=Object.values(cart)
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [refresh,setRefresh]=useState(false)
 
   return (
     <div>
@@ -40,20 +45,21 @@ export default function CartPage() {
       <Grid container spacing={isMobile ? 2 : 3} className={styles.mainContent}>
         {/* Left Section - Cart Items */}
         <Grid size={{ xs: 12, md: 8 }}>
-          <ShowCart  items={products} />
+          <ShowCart  items={products} refresh={refresh} setRefresh={setRefresh} />
         </Grid>
 
         {/* Right Section - Stepper, Payment & Coupon */}
         <Grid size={{ xs: 12, md: 4 }}>
           <div className={styles.rightSection}>
             {/* Stepper */}
-            <CounterComponent/>
-            <PaymentDetails  items={products}  />
+            <CounterComponent />
+            <PaymentDetails items={products}  />
             <CouponComponent />
             <Button
               variant="contained"
               fullWidth
               className={styles.placeOrderBtn}
+              onClick={()=>navigate.push('/order-review')}
             >
               Place Order
             </Button>

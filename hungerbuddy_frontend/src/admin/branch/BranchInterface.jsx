@@ -1,6 +1,6 @@
-import {FormControl,InputLabel,Select,MenuItem, Grid, Button, TextField } from "@mui/material";
+import { FormControl, InputLabel, Select, MenuItem, Grid, Button, TextField } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { getData, getDate, getTime, postData } from "../../services/FetchNodeServices";
 import { Toast } from "../../utils/toast";
 
@@ -47,7 +47,7 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-export default function BranchInterface({refresh,setRefresh}) {
+export default function BranchInterface({ refresh, setRefresh }) {
   var classes = useStyle();
   const [branchName, setBranchName] = useState("");
   const [address, setAddress] = useState("");
@@ -61,41 +61,41 @@ export default function BranchInterface({refresh,setRefresh}) {
   const [contactPerson, setContactPerson] = useState("");
 
   const [error, setError] = useState({});
-   const fetchAllState=async ()=>{
-    var res=await getData('statecity/fetch_states')
+  const fetchAllState = async () => {
+    var res = await getData('statecity/fetch_states')
     setStateList(res.data)
 
 
-   }
+  }
 
- const fetchAllCity=async (sid)=>{
-    var res=await postData('statecity/fetch_cities',{stateid:sid})
+  const fetchAllCity = async (sid) => {
+    var res = await postData('statecity/fetch_cities', { stateid: sid })
     setCityList(res.data)
 
 
-   }
+  }
 
-  const handleStateChange=(e)=>{
+  const handleStateChange = (e) => {
     setState(e.target.value)
     fetchAllCity(e.target.value)
   }
 
-   useEffect(function(){
+  useEffect(function () {
     fetchAllState()
-  },[])
+  }, [])
 
-  const fillStates=()=>{
-    return stateList.map((item)=>{
-      return(<MenuItem value={item.stateid}>{item.statename}</MenuItem>)
+  const fillStates = () => {
+    return stateList.map((item) => {
+      return (<MenuItem value={item.stateid}>{item.statename}</MenuItem>)
     })
   }
-  
- const fillCities=()=>{
-    return cityList.map((item)=>{
-      return(<MenuItem value={item.cityid}>{item.cityname}</MenuItem>)
+
+  const fillCities = () => {
+    return cityList.map((item) => {
+      return (<MenuItem value={item.cityid}>{item.cityname}</MenuItem>)
     })
   }
- 
+
 
   const handleError = (label, message) => {
     setError((prev) => ({ ...prev, [label]: message }));
@@ -162,13 +162,12 @@ export default function BranchInterface({refresh,setRefresh}) {
 
     return isError;
   };
-  const generatePassword=()=>{
-    var sp=['@','#','$','!','&','1','2','3','4','5','6','7','8','9','0']
-    var pwd=''
-    for(var i=1;i<=8;i++)
-    { //alert(parseInt(Math.random()*14))
-      var j=sp[parseInt(Math.random()*14)]
-      pwd+=j
+  const generatePassword = () => {
+    var sp = ['@', '#', '$', '!', '&', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
+    var pwd = ''
+    for (var i = 1; i <= 8; i++) { //alert(parseInt(Math.random()*14))
+      var j = sp[parseInt(Math.random() * 14)]
+      pwd += j
     }
     return pwd
   }
@@ -176,8 +175,8 @@ export default function BranchInterface({refresh,setRefresh}) {
   const handleClick = async () => {
     var err = validation();
     if (err == false) {
-      var pwd=generatePassword()
-     
+      var pwd = generatePassword()
+
       var body = {
         branchname: branchName,
         address: address,
@@ -190,7 +189,7 @@ export default function BranchInterface({refresh,setRefresh}) {
         createddate: getDate(),
         createdtime: getTime(),
         userid: "xxxxx",
-        password:pwd
+        password: pwd
       };
 
       var response = await postData("branch/submit_branch", body);
@@ -261,13 +260,13 @@ export default function BranchInterface({refresh,setRefresh}) {
           </Grid>
           <Grid size={2.5}>
             <div style={{ paddingRight: "5px" }}>
-             <FormControl size="small" fullWidth>
-              <InputLabel>State</InputLabel>
-              <Select label="State" value={state} onChange={handleStateChange}>
-               <MenuItem>-Select State-</MenuItem>
-               {fillStates()}
-              </Select>
-             </FormControl>
+              <FormControl size="small" fullWidth>
+                <InputLabel>State</InputLabel>
+                <Select label="State" value={state} onChange={handleStateChange}>
+                  <MenuItem>-Select State-</MenuItem>
+                  {fillStates()}
+                </Select>
+              </FormControl>
               {/*<TextField
                 label="State"
                 fullWidth
@@ -284,7 +283,7 @@ export default function BranchInterface({refresh,setRefresh}) {
               <Button
                 style={{ background: "hsla(321, 32%, 37%, 1.00)" }}
                 fullWidth
-                
+
                 variant="contained"
                 onClick={handleClick}
               >
@@ -294,16 +293,16 @@ export default function BranchInterface({refresh,setRefresh}) {
           </Grid>
           <Grid size={2.5}>
             <div style={{ paddingLeft: "5px" }}>
-             <FormControl size="small" fullWidth>
-              <InputLabel>City</InputLabel>
-              <Select label="City" value={city} onChange={(e)=>setCity(e.target.value)} >
-               <MenuItem>-Select City-</MenuItem>
-               {fillCities()}
-              </Select>
+              <FormControl size="small" fullWidth>
+                <InputLabel>City</InputLabel>
+                <Select label="City" value={city} onChange={(e) => setCity(e.target.value)} >
+                  <MenuItem>-Select City-</MenuItem>
+                  {fillCities()}
+                </Select>
               </FormControl>
-             
-             
-             {/* <TextField
+
+
+              {/* <TextField
                 label="City"
                 fullWidth
                 size="small"
@@ -353,7 +352,7 @@ export default function BranchInterface({refresh,setRefresh}) {
               />
             </div>
           </Grid>
-          
+
           <Grid size={2}>
             <div style={{ paddingRight: "5px" }}>
               <Button

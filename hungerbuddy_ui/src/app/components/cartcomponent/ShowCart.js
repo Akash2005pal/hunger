@@ -37,7 +37,7 @@ const sampleCartItems = [
 ];
 
 export default function ShowCart({ items }) {
-  //alert(JSON.stringify(items))
+  // alert(JSON.stringify(items))
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -157,11 +157,12 @@ export default function ShowCart({ items }) {
                     ) : (
                       <div style={{display:'flex',width:'95%'}}>
                         <span className={styles.currentPrice}>
-                         ₹{item.offerprice.toFixed(2)}/unit
+                         ₹{Number(item?.offerprice)?.toFixed(2)}/unit
 
                         </span>
                         <span className={styles.originalPrice}>
-                          ₹{item.fullprice.toFixed(2)}/unit
+                          {console.log(item.fullprice)}
+                          ₹{Number(item?.offerprice)?.toFixed(2)}/unit
                         </span>
                       <span className={styles.currentPrice} style={{marginLeft:'auto'}} >
                         ₹{amt.toFixed(2)}

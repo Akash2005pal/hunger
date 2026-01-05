@@ -1,4 +1,4 @@
-import { Route,Routes,BrowserRouter as Router } from "react-router-dom";
+import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
 
 
 import BranchLogin from "./admin/branch/BranchLogin";
@@ -11,7 +11,7 @@ import DeliveryDisplay from "./admin/dilevery/DeliveryDisplay"
 
 function App() {
   return (
-    <div style={{fontFamily:'Quicksand'}}>
+    <div style={{ fontFamily: 'Quicksand' }}>
       <Router>
         <Routes>
           <Route element={<BranchLogin />} path="/branchlogin" />
@@ -19,10 +19,10 @@ function App() {
           <Route element={<Branch />} path="/branch" />
           <Route element={<AdminLogin />} path="/adminlogin" />
           <Route element={<AdminDashboard />} path="/admindashboard/*" />
-          
+
         </Routes>
       </Router>
-      
+
     </div>
   );
 }

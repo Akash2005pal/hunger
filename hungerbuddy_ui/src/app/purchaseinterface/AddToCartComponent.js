@@ -99,8 +99,8 @@ export default function AddToCartComponent({ data,refresh,setRefresh }) {
           <div
             style={{ display: "flex", gap: 10, marginTop: 10, width: "100%" }}
           >
-            {weightOptions.map((w,i) => (
-              <div key={i}>{w > 0 ? (
+            {weightOptions.map((w) => (
+              <div>{w > 0 ? (
                   <div
                     style={{
                       display: "flex",

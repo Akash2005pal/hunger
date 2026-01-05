@@ -14,7 +14,7 @@ function CustomStepIcon({ active, completed, icon }) {
         active || completed ? styles.stepIconActive : styles.stepIconInactive
       }`}
     >
-      {icon}
+      {completed ? <CheckIcon sx={{fontSize: 16}}/>:icon}
     </div>
   );
 }
@@ -48,7 +48,7 @@ export default function CounterComponent({
             },
           }}
         >
-          {steps.map((label, index) => (
+          {steps?.map((label, index) => (
             <Step key={label}>
               <StepLabel
                 slots={{ stepIcon: CustomStepIcon }}

@@ -74,7 +74,7 @@ export default function SetupAccount() {
             },
           }}
         >
-          Get Started
+          Get Started to
         </Button>
       </Box>
     </div>

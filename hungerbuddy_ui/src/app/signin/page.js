@@ -1,11 +1,11 @@
 "use client"
 import { Grid, TextField } from "@mui/material";
-import { postData } from "../services/FetchNodeServices";
+import { generateOTP, postData } from "../services/FetchNodeServices";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 export default function LoginPage(){
- const [mobileno,setMobileNo]=useState('')
+ const [mobileNo,setMobileNo]=useState('')
  const [user,setUser]=useState('')
  const [message,setMessage]=useState('')
  const navigate=useRouter()
@@ -13,10 +13,12 @@ export default function LoginPage(){
 
 const handleClick=async()=>{
 
-    var response=await postData("users/student_sign_in",{mobileno})
+    var response=await postData("users/student_sign_in",{mobileNo})
     if(response.status)
-     {
-        dispatch({type:'ADD_USER',payload:[mobileno,response.data]})
+     { 
+        var mn=response?.data?.mobileno       
+        dispatch({type:'ADD_USER',payload:[mn,response?.data]})
+        
         navigate.push('/otppage')
      }
     else

@@ -134,4 +134,35 @@ router.post('/fetch_all_fooditems_by_category_id', function (req, res) {
   );
 });
 
+/*****MOBILE */
+router.get('/student_sign_in', function (req, res) {
+  console.log(req.body)
+  try {
+    pool.query('select * from students where mobileno=?',[req.body.mobileNo], function (error, result) {
+      if (error) {
+        console.log(error);
+        res.status(500).json({
+          status: false,
+          message: 'Database Error Please Contact Backend Team....'
+        });
+      }
+      else {
+        res.status(200).json({
+          data: result,
+          status: true,
+          message: 'success'
+        });
+      }
+    });
+  }
+  catch (e) {
+    res.status(500).json({
+      status: false,
+      message: 'Critical Error Please Contact Backend Team....'
+    });
+  }
+});
+
+
+
 module.exports = router;

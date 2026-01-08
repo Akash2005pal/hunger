@@ -3,6 +3,8 @@ import React from "react";
 import { Stepper, Step, StepLabel, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import styles from "./CounterComponent.module.css";
+import CheckIcon from "@mui/icons-material/Check";
+
 
 const steps = ["Your Cart", "Order Review", "Payment"];
 

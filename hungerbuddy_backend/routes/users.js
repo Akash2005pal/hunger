@@ -135,7 +135,7 @@ router.post('/fetch_all_fooditems_by_category_id', function (req, res) {
 });
 
 /*****MOBILE */
-router.get('/student_sign_in', function (req, res) {
+router.post('/student_sign_in', function (req, res) {
   console.log(req.body)
   try {
     pool.query('select * from students where mobileno=?',[req.body.mobileNo], function (error, result) {
@@ -147,10 +147,17 @@ router.get('/student_sign_in', function (req, res) {
         });
       }
       else {
+        if(result.length==1)
         res.status(200).json({
           data: result,
           status: true,
-          message: 'success'
+          message: 'success',data:result[0]
+        });
+        else
+          res.status(200).json({
+          data: result,
+          status: false,
+          message: 'Your not register yet..Pls contact Branch Admin',data:[]
         });
       }
     });

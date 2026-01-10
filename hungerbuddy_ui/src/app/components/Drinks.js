@@ -23,16 +23,14 @@ export default function DrinksComponent({data})
   };
    const sliderRef=useRef()
    const [index,setIndex]=useState(0)
-
+  
+  
    const handleCategoryClick=(fid)=>{
     setIndex(fid)
-    navigate.push(`/productdetailcomponent/${fid}`)
-  
+navigate.push(`/productdetailcomponent/${fid}`)
    }
-
-  
  function showCategory(){
-  return data?.map((item)=>{
+  return data.map((item)=>{
     return(<div  >
      <div onClick={()=>handleCategoryClick(item.fooditemid)}  style={{cursor:'pointer', width:'100%',display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'column',borderBottom:item.fooditemid==index?'4px solid red':''}}>
      <div style={{display:'flex',alignItems:'center',justifyContent:'center',width:'70%',height:'70%',borderRadius:'50%'}}>
@@ -54,8 +52,10 @@ const handleNext=()=>{
 return(
 
 
-<div style={{width:'95%',position:'relative',marginTop:40}}>
-   <div style={{fontSize:20,fontWeight:'bold',marginBottom:10,marginLeft:'4%'}}>Drinks</div>
+<div style={{width:'95%', marginTop:40,position:'relative'}}>
+
+    <div style={{fontSize:20,fontWeight:'bold',marginBottom:10,marginLeft:'4%'}}>Drinks</div>
+
 {matches?<></>:<Image onClick={handlePrevious} style={{position:'absolute',top:'42%',zIndex:2,cursor:'pointer'}} src="/images/previous.png" width={35} height={35} alt="" />}
   <Slider ref={sliderRef} {...settings}>
    {showCategory()}
@@ -66,5 +66,4 @@ return(
 )
 
 }
-
 

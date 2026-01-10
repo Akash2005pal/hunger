@@ -85,7 +85,7 @@ onClick={()=>navigate.push("/cart")}
     </div>
     {userData=="Not Login"?
     <div
-    onClick={()=>navigate.push("singin")}
+    onClick={()=>navigate.push("signin")}
       style={{
         display: "flex",
         alignItems: "center",

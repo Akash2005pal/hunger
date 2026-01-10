@@ -1,14 +1,12 @@
 "use client";
-import React from "react";
+
 import { Stepper, Step, StepLabel, useMediaQuery } from "@mui/material";
+import CheckIcon from "@mui/icons-material/Check";
 import { useTheme } from "@mui/material/styles";
 import styles from "./CounterComponent.module.css";
-import CheckIcon from "@mui/icons-material/Check";
-
 
 const steps = ["Your Cart", "Order Review", "Payment"];
 
-// Custom step icon component matching the design
 function CustomStepIcon({ active, completed, icon }) {
   return (
     <div
@@ -16,7 +14,7 @@ function CustomStepIcon({ active, completed, icon }) {
         active || completed ? styles.stepIconActive : styles.stepIconInactive
       }`}
     >
-      {completed ? <CheckIcon sx={{fontSize: 16}}/>:icon}
+      {completed ? <CheckIcon sx={{ fontSize: 16 }} /> : icon}
     </div>
   );
 }
@@ -25,7 +23,7 @@ export default function CounterComponent({
   showStepper = true,
   currentStep = 0,
 }) {
-  // Stepper component using MUI Stepper with custom styling
+  // Stepper component
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -50,7 +48,7 @@ export default function CounterComponent({
             },
           }}
         >
-          {steps?.map((label, index) => (
+          {steps.map((label, index) => (
             <Step key={label}>
               <StepLabel
                 slots={{ stepIcon: CustomStepIcon }}

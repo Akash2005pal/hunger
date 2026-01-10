@@ -1,11 +1,26 @@
 import Image from "next/image";
-import { Badge } from "@mui/material";
+import { Avatar, Badge } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 export default function User({ totalItems }) {
   var navigate = useRouter()
+// var user = useSelector((state)=>state.user)
+var user=localStorage.getItem('USER')
 
+var userData 
+if(user==null)
+{
+  userData="Not Login"
+
+}
+else
+{
+  userData=Object.values(user)
+  alert(userData.studentname)
+
+}
   return (<div
-  onClick={()=>navigate.push("/cart")}
+  
     style={{
       cursor:'pointer',
       
@@ -18,6 +33,7 @@ export default function User({ totalItems }) {
   >
     <Badge badgeContent={totalItems} color="error">
 <div
+onClick={()=>navigate.push("/cart")}
         style={{
           display: "flex",
           alignItems: "center",
@@ -67,7 +83,9 @@ export default function User({ totalItems }) {
     >
       <Image src="/images/wallet.jpg" width={25} height={25} alt="" />
     </div>
+    {userData=="Not Login"?
     <div
+    onClick={()=>navigate.push("singin")}
       style={{
         display: "flex",
         alignItems: "center",
@@ -79,9 +97,8 @@ export default function User({ totalItems }) {
       }}
     >
       <Image src="/images/user1.png" width={25} height={25} alt="" />
-    </div>
-
-  </div>
+    </div>:<div><Avatar>{userData?.studentname}</Avatar> </div>}
+     </div>
 
   )
 }

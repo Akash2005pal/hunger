@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import FlashOnIcon from "@mui/icons-material/FlashOn";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import { Button } from "@mui/material";
@@ -9,6 +9,8 @@ import styles from "./ShowCart.module.css";
 import { serverURL } from "@/app/services/FetchNodeServices";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import { usePathname } from "next/navigation";
+import QuantityCounter from "./QuantityCounter";
 // Minimum order amount for grocery
 const MINIMUM_ORDER_AMOUNT = 99;
 
@@ -36,18 +38,17 @@ const sampleCartItems = [
   },
 ];
 
-export default function ShowCart({ items }) {
-  // alert(JSON.stringify(items))
+export default function ShowCart({ items,refresh,setRefresh }) {
+  //alert(JSON.stringify(items))
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
+  var path=usePathname()
 
   const totalItems = items.length;
   // Calculate total price using offerprice
   const totalPrice = items.reduce((sum, item) => sum + item.offerprice, 0);
   const total_amount = items.reduce((sum, item) => sum + (item.offerprice>0?item.offerprice:item.fullprice)*item.qty, 0);
-  
   const isBelowMinimum = totalPrice < MINIMUM_ORDER_AMOUNT;
   const amountNeeded = MINIMUM_ORDER_AMOUNT - totalPrice;
 
@@ -118,7 +119,7 @@ export default function ShowCart({ items }) {
         {/* Cart Items */}
         {items.map((item, index) => {
           // Calculate savings for display
-          const savings = item.fullprice - item.offerprice;
+          const savings = (item.fullprice - item.offerprice)*item.qty;
           const amt=(item.offerprice>0?item.offerprice:item.fullprice)*item.qty
           return (
             <div key={item.fooditemid}>
@@ -157,12 +158,12 @@ export default function ShowCart({ items }) {
                     ) : (
                       <div style={{display:'flex',width:'95%'}}>
                         <span className={styles.currentPrice}>
-                         ₹{Number(item?.offerprice)?.toFixed(2)}/unit
+                          ₹{Number(item.offerprice).toFixed(2)}/unit
 
                         </span>
                         <span className={styles.originalPrice}>
-                          {console.log(item.fullprice)}
-                          ₹{Number(item?.offerprice)?.toFixed(2)}/unit
+                          ₹{Number(item.fullprice).toFixed(2)}/unit
+
                         </span>
                       <span className={styles.currentPrice} style={{marginLeft:'auto'}} >
                         ₹{amt.toFixed(2)}
@@ -183,18 +184,16 @@ export default function ShowCart({ items }) {
                     Sold by:{" "}
                     <span className={styles.sellerName}>HungerBuddy Foods</span>
                   </span>
+                 <div style={{display:'flex'}}>
                   <span className={styles.sizeText}>
                     Qty: <span className={styles.sizeValue}>{item.qty}</span>
                   </span>
-                  <div className={styles.counterSection}>
-                    <div className={styles.counterBtn}>
-                      <RemoveIcon style={{ fontSize: 16 }} />
-                    </div>
-                    <span className={styles.counterValue}>{item?.qty}</span>
-                    <div className={styles.counterBtn}>
-                      <AddIcon style={{ fontSize: 16 }} />
-                    </div>
+                  {path=="/order-review"?<div></div>:
+                 <div style={{marginLeft:'auto'}}>
+                  <QuantityCounter data={item}  refresh={refresh} setRefresh={setRefresh} />
+                  </div>}
                   </div>
+                 
                 </div>
               </div>
             </div>

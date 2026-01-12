@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
@@ -6,78 +6,68 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-import { serverURL } from "../services/FetchNodeServices";
+import { serverURL,postData } from "../services/FetchNodeServices";
+import { useRouter,usePathname } from "next/navigation";
+export default function CategoryComponent({data,dataRef,foodList,setFoodList})
+{  const theme = useTheme();
+  var navigate=useRouter()
+  var path=usePathname()
 
-
-export default function CategoryComponent({ data,dataRef }) {
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.down("md"));
-
-  const settings = {
+  const matches = useMediaQuery(theme.breakpoints.down('md'));
+  var settings = {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: matches ? 5 : 7,
+    slidesToShow: matches?5:7,
     slidesToScroll: 1,
-    arrows: false
+    arrows:false
   };
+   const sliderRef=useRef()
+   const [index,setIndex]=useState(0)
+     const fetchAllFoodByCategory = async (cid) => {
+    var response = await postData("users/fetch_all_fooditems_by_category_id",{categoryid:cid});
 
-  const sliderRef = useRef();
-  const [index, setIndex] = useState(0);
-  // const serverUrl = process.env.serverUrl;
+    setFoodList(response.data)
+  };
+   
 
-  const handleCategoryClick = (cid) => {
+   const handleCategoryClick=(cid)=>{
+    if(path=="/homepage")
+    {
+    fetchAllFoodByCategory(cid)
     setIndex(cid)
-    dataRef.current?.scrollIntoView({behavior:'smooth'})
-  };
+         dataRef.current?.scrollIntoView({ behavior:'smooth' })
+    }
+    else
+    {
+      
+      navigate.replace('/homepage')
+    }
 
-  const showCategory = () => {
-    return data?.map((item) => (
-      <div key={item.categoryid}>
-        <div
-          onClick={() => handleCategoryClick(item.categoryid)}
-          style={{
-            cursor: "pointer",
-            width: "100%",
-            display: "flex", 
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-            borderBottom:
-              item.categoryid === index ? "4px solid red" : "",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "70%",
-              height: "70%",
-              borderRadius: "50%",
-            }}
-          >
-            <img
-              style={{ width: "100%" }}
-              src={`${serverURL}/images/${item.categoryicon}`}
-            />
-          </div>
-          <div style={{ fontSize: matches ? "0.7rem" : "1rem" }}>
-            {item.categoryname}
-          </div>
-        </div>
-      </div>
-    ));
-  };
-  const handlePrevious=()=>{
-    sliderRef.current.slickPrev()
-  }
+}
+ function showCategory(){
+  return data.map((item)=>{
+    return(<div >
+     <div onClick={()=>handleCategoryClick(item.categoryid)}  style={{cursor:'pointer', width:'100%',display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'column',borderBottom:item.categoryid==index?'4px solid red':''}}>
+     <div style={{display:'flex',alignItems:'center',justifyContent:'center',width:'70%',height:'70%',borderRadius:'50%'}}>
+     <img style={{width:'100%'}} src={`${serverURL}/images/${item.categoryicon}`}/>
+     </div>
+     <div style={{fontSize:matches?'0.7rem':'1rem'}}>{item.categoryname}</div>
+     </div>
+  
+   </div>)
+ })
+
+}
+const handlePrevious=()=>{
+sliderRef.current.slickPrev()
+}
 const handleNext=()=>{
   sliderRef.current.slickNext()
 }
+return(
 
-  return (
-    
+
 <div style={{width:'95%',position:'relative'}}>
 {matches?<></>:<Image onClick={handlePrevious} style={{position:'absolute',top:'42%',zIndex:2,cursor:'pointer'}} src="/images/previous.png" width={35} height={35} alt="" />}
   <Slider ref={sliderRef} {...settings}>
@@ -89,3 +79,4 @@ const handleNext=()=>{
 )
 
 }
+

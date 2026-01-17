@@ -18,6 +18,7 @@ var walletRouter = require('./routes/wallet');
 var employeeRouter = require('./routes/employee');
 var deliveryRouter = require('./routes/delivery');
 var picturesRouter = require('./routes/pictures')
+var orderRouter= require('./routes/order')
 
 var app = express();
 
@@ -45,6 +46,7 @@ app.use('/wallet',walletRouter)
 app.use('/employee',employeeRouter)
 app.use('/delivery',deliveryRouter)
 app.use('/pictures',picturesRouter)
+app.use('/order',orderRouter)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

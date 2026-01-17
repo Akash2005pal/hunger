@@ -1,7 +1,10 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 const serverURL='http://localhost:5001'
-
+function generateOTP(){
+ var otp=parseInt(Math.random()*899999)+100000
+ return otp
+}
 function getDate()
 {
     var cd=new Date()
@@ -65,4 +68,4 @@ catch(e)
 }
 }
 
-export {postData,serverURL,getDate,getTime,getData}
+export {postData,serverURL,getDate,getTime,getData,generateOTP}

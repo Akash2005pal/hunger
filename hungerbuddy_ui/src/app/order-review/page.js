@@ -10,8 +10,10 @@ import PaymentDetails from "../components/cartcomponent/PaymentDetails";
 import CouponComponent from "../components/cartcomponent/CouponComponent";
 import CounterComponent from "../components/cartcomponent/CounterComponent";
 import styles from "./order-review.module.css";
-import { useSelector } from "react-redux";
-import AddressDrawer from "../components/cartcomponent/ShowAddress";
+import {useDispatch, useSelector } from "react-redux";
+import AddressDrawer from "../components/cartcomponent/AddressDrawer";
+import { useRazorpay, RazorpayOrderOptions } from "react-razorpay";
+import { postData } from "../services/FetchNodeServices";
 
 export default function OrderReviewPage() {
   const theme = useTheme();
@@ -21,14 +23,86 @@ export default function OrderReviewPage() {
   const isSmallMobile = useMediaQuery(theme.breakpoints.down("sm"));
   var cart = useSelector((state) => state.cart);
   var products = Object.values(cart);
-
+  var dispatch=useDispatch()
   // Step management: 0 = My Cart, 1 = Order Review, 2 = Payment
   // Start at 1 for Order Review
   const [currentStep, setCurrentStep] = useState(1);
   const [drawerStatus, setDrawerStatus] = useState(false);
-  var user=useSelector((state)=>state.user)
+const { error, isLoading, Razorpay } = useRazorpay();
+ // var user=useSelector((state)=>state.user)
+ var user=JSON.parse(localStorage.getItem('USER'))
+ var btnMessage 
+ var userData
+ if(user==null)
+ {
+  btnMessage="Sign In"
+userData="Not Login"
+
+ }
+ else
+ {
+  btnMessage="Make Payment" 
+  userData=Object.values(user)[0]
+ }
+
+
+const mrpTotal=products.reduce((sum, item) => sum + (item.offerprice>0?item.offerprice:item.fullprice)*item.qty, 0);
+
+  const discount = products.reduce((sum, item) => sum + (item.offerprice>0?item.fullprice-item.offerprice:0)*item.qty, 0);
+   const deliveryFee = 0
+
+
+  const total = mrpTotal - discount + deliveryFee;
+  
+
+  
+    const options= {
+      key: "rzp_test_GQ6XaPC6gMPNwH",
+      amount: total*100, // Amount in paise
+      currency: "INR",
+      name: "Hunger Buddy",
+      description: "Test Transaction",
+      order_id: "", // Generate order_id on server
+      handler:async (response) => {
+        console.log(response)
+
+         await postData("users/submit_order",{paymentid:response.razorpay_payment_id,orderdate:new Date(),delivery_status:"Not Deliver",payment_type:"None"}).then(async (res)=>{
+
+            await postData('users/submit_order_detail',{orderid:res.orderid,enrollmentno:userData.enrollmentno,emailid:userData.emailid,mobileno:userData.mobileno, data:products})
+         })
+
+         dispatch({type:'EMPTY_CART'})
+         router.push('/homepage')
+
+      },
+      prefill: {
+        name: userData?.studentname,
+        email: userData?.emailid,
+        contact: userData?.mobileno,
+      },
+      theme: {
+        color: "#F37254",
+      },
+    };
+
+
+
+  
+
+
+
+
   const handleMakePayment = () => {
-    alert(user===undefined)
+    if(userData=="Not Login")
+    {
+      router.push("/signin?from=MP")
+    }
+    else
+    {
+         const razorpayInstance = new window.Razorpay(options);
+    razorpayInstance.open();
+
+    }
 
     setCurrentStep(2); // Move to Payment step
   };
@@ -71,7 +145,10 @@ export default function OrderReviewPage() {
                   gap: "16px",
                 }}
               >
-                <ShowAddress   drawerStatus={drawerStatus} setDrawerStatus={setDrawerStatus} />
+                {userData!="Not Login"?
+                <ShowAddress  address={userData}   drawerStatus={drawerStatus} setDrawerStatus={setDrawerStatus} />
+                :<></>}
+   
                 <ShowCart items={products} />
               </div>
             </Grid>
@@ -90,7 +167,7 @@ export default function OrderReviewPage() {
                     className={styles.placeOrderBtn}
                     onClick={handleMakePayment}
                   >
-                    Make Payment
+                    {btnMessage}
                   </Button>
                 ) : (
                   <div>Payment Step Placeholder</div>

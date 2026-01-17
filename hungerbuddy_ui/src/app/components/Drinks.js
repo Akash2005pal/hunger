@@ -30,7 +30,7 @@ export default function DrinksComponent({data})
 navigate.push(`/productdetailcomponent/${fid}`)
    }
  function showCategory(){
-  return data.map((item)=>{
+  return data?.map((item)=>{
     return(<div  >
      <div onClick={()=>handleCategoryClick(item.fooditemid)}  style={{cursor:'pointer', width:'100%',display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'column',borderBottom:item.fooditemid==index?'4px solid red':''}}>
      <div style={{display:'flex',alignItems:'center',justifyContent:'center',width:'70%',height:'70%',borderRadius:'50%'}}>

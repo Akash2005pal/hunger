@@ -1,92 +1,103 @@
 "use client";
+
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useTheme } from "@mui/material/styles";
-import Rating from '@mui/material/Rating';
-import { serverURL } from "../services/FetchNodeServices";
-export default function ProductRateComponent({data}) {
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.down("md"));
-  //const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL
+import Rating from "@mui/material/Rating";
+
+export default function ProductRateComponent({ data }) {
+  // ✅ MOBILE MEDIA QUERY ONLY
+  const matches = useMediaQuery("(max-width:768px)");
+
   return (
     <div
       style={{
-        padding: matches ? "20px" : "0",
-        marginLeft: matches ? -35 : "4%",
-        marginTop: matches ? "10px" : "0",
-        background:'transparent'
+        padding: matches ? "12px 0" : 0,
+        marginLeft: matches ? 0 : "4%", // ✅ FIXED
+        marginTop: matches ? 8 : 0,
+        background: "transparent",
       }}
     >
+      {/* ================= RATING ================= */}
       <div
         style={{
           display: "flex",
-          flexDirection: "row",
           alignItems: "center",
           gap: 6,
-    
         }}
       >
-        <div style={{ display: "flex", flexDirection: "row", gap: 4 }}>
-          <Rating
-        name="simple-controlled"
-        value={parseInt(data?.ratings)}
-        
-      />
-        </div>
+        <Rating
+          value={Number(data?.ratings) || 0}
+          readOnly
+          size={matches ? "small" : "medium"} // ✅ MOBILE SIZE
+        />
 
         <div
           style={{
             fontSize: matches ? 12 : 14,
             color: "grey",
-            zIndex: 1,
           }}
         >
           ({data?.ratings})
         </div>
       </div>
 
+      {/* ================= PRODUCT DETAILS ================= */}
       <div
         style={{
           display: "flex",
           flexDirection: "column",
-          gap: matches ? 8 : 10,
-          marginTop: matches ? 8 : 10,
-          zIndex: 1,
+          gap: matches ? 6 : 10,
+          marginTop: matches ? 6 : 10,
         }}
       >
         <div
           style={{
-            fontFamily:'poppins',
-            fontSize: matches ? "14px" : "18px",
-            color: matches?'black' :"grey",
-            zIndex: 1,
+            fontFamily: "poppins",
+            fontSize: matches ? 14 : 18,
+            color: matches ? "#000" : "grey",
           }}
         >
           {data?.categoryname}
         </div>
+
         <div
           style={{
-            fontSize: matches ? "28px" : "35px",
+            fontSize: matches ? 24 : 35, // ✅ MOBILE FIX
             fontWeight: 500,
-            zIndex: 1,
           }}
         >
           {data?.fooditemname}
         </div>
+
         <div
           style={{
-            fontSize: matches ? "24px" : "30px",
+            fontSize: matches ? 22 : 30, // ✅ MOBILE FIX
             fontWeight: 500,
-            zIndex: 1,
           }}
         >
-          {data.offerprice==0?<span style={{fontWeight:'bold',color:'#000'}}>₹{data.fullprice}</span>:<><span style={{fontWeight:'bold',marginRight:'2%',color:'#000'}}>₹{data.offerprice}</span> <s>₹{data.fullprice}</s></>}
+          {data?.offerprice == 0 ? (
+            <span style={{ fontWeight: "bold", color: "#000" }}>
+              ₹{data?.fullprice}
+            </span>
+          ) : (
+            <>
+              <span
+                style={{
+                  fontWeight: "bold",
+                  marginRight: 8,
+                  color: "#000",
+                }}
+              >
+                ₹{data?.offerprice}
+              </span>
+              <s style={{ color: "grey" }}>₹{data?.fullprice}</s>
+            </>
+          )}
         </div>
 
         <div
           style={{
-            fontSize: matches ? "10px" : "12px",
+            fontSize: matches ? 10 : 12,
             color: "grey",
-            zIndex: 1,
           }}
         >
           Tax included. Shipping calculated at checkout
@@ -94,17 +105,15 @@ export default function ProductRateComponent({data}) {
 
         <div
           style={{
-            fontSize: matches ? "12px" : "14px",
+            fontSize: matches ? 12 : 14,
             fontWeight: 400,
-            marginTop: matches ? 15 : 25,
-            zIndex: 1,
+            marginTop: matches ? 12 : 25,
             lineHeight: 1.5,
           }}
         >
-         {data?.description}
+          {data?.description}
         </div>
       </div>
     </div>
   );
 }
-

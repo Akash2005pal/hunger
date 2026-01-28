@@ -10,11 +10,11 @@ export default function FoodItemCard({ data }) {
   var navigate=useRouter()
   
   const showFood = () => {
-    return data?.map((item) => {
+    return data.map((item) => {
       var percent = (item.fullprice - item.offerprice) / item.fullprice * 100
 
       return (
-        <div className={styles.card} onClick={()=>navigate.push(`/productdetailcomponent/${item.fooditemid}`)}>
+        <div  key={item.fooditemid} className={styles.card} onClick={()=>navigate.push(`/productdetailcomponent/${item.fooditemid}`)}>
           <div className={styles.imageContainer} style={{ background: `${mycolor[parseInt(Math.random() * 9)]}` }}>
             <div className={styles.imageStyle}>
               <img

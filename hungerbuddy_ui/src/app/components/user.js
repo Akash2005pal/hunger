@@ -1,35 +1,49 @@
 "use client"
 import Image from "next/image";
-import { Badge, Avatar } from "@mui/material";
+import { Badge, Avatar,Menu } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import {Person, ShoppingBag, Logout }from "@mui/icons-material/Person";
+
+import styles from "./User.module.css";
 
 export default function User({ totalItems }) {
-  var navigate = useRouter()
-  // var user=useSelector((state)=>state.user)
-  var user = JSON.parse(localStorage.getItem('USER') || "{}")
-console.log(user)
+   const navigate = useRouter();
+  const [userData, setUserData] = useState("Not Login");
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
 
-  var userData
-  // if () {
-  //   userData = "Not Login"
-  // }
-  // else {
-  //   userData = Object.values(user)[0]
+  useEffect(() => {
+    const storedUser = localStorage.getItem("USER");
+    if (storedUser) {
+      try {
+        const user = JSON.parse(storedUser);
+        if (user != null) {
+          setUserData(Object.values(user)[0]);
+        }
+      } catch (e) {
+        localStorage.removeItem("USER");
+      }
+    }
+  }, []);
 
-  // }
+  const handleClick = (event)=>{
+    setAnchorEl(event.currenTarget)
+  }
+
+  const handleClose = ()=>{
+    setAnchorEl(null)
+  }
+  
+const handleLogout =() =>{
+  localStorage.removeItem("USER")
+  setUserData("Not Login")
+  handleClose()
+  window.location.reload()
+}
   return (
-    <div
-
-      style={{
-        cursor: 'pointer',
-
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        width: "10%",
-        padding: 10,
-      }}
+    <div className={styles.container}
     >
 
 
@@ -39,74 +53,101 @@ console.log(user)
 
         <div
           onClick={() => navigate.push("/cart")}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: 40,
-            height: 40,
-            borderRadius: 20,
-            background: "#000",
-          }}
+         className={styles.iconButton}
         >
 
           <Image src="/images/cart.png" width={25} height={25} alt="" />
         </div>
       </Badge>
-      <div style={{ position: "relative", }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            top: 10,
-            left: 2,
-            position: "absolute",
-            width: 45,
-            height: 15,
-            background: "#30336b",
-            border: "0.5 solid #fff",
-            borderRadius: 10,
-          }}
-        >
-          <span style={{ color: "#fff", fontSize: 9, fontWeight: "bold" }}>
-            &#8377;20
-          </span>
+      <div className={styles.walletWrapper}>
+        <div className={styles.iconButton}>
+          <Image src="/images/wallet.jpg" width={25} height={25} alt="" />
+        </div>
+        <div className={styles.walletBadge}>
+          <span className={styles.walletAmount}>&#8377;20</span>
         </div>
       </div>
 
-
-
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          width: 40,
-          height: 40,
-          borderRadius: 20,
-          background: "#000",
-        }}
-      >
-        <Image src="/images/wallet.jpg" width={25} height={25} alt="" />
-      </div>
-      {userData == "Not Login" ?
+      {userData === "Not Login" ? (
         <div
           onClick={() => navigate.push("/signin?from=HP")}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: 40,
-            height: 40,
-            borderRadius: 20,
-            background: "#000",
-          }}
+          className={styles.iconButton}
         >
           <Image src="/images/user.png" width={25} height={25} alt="" />
-        </div> : <div><Avatar style={{ background: '#f79f1f' }}>{userData?.studentname[0]}</Avatar></div>}
-
-
+        </div>
+      ) : (
+        <div>
+          <Avatar
+            onClick={handleClick}
+            sx={{ background: "orange", color: "#fff", cursor: "pointer" }}
+          >
+            {userData?.studentname[0]}
+          </Avatar>
+          <Menu
+            anchorEl={anchorEl}
+            id="account-menu"
+            open={open}
+            onClose={handleClose}
+            slotProps={{
+              paper: {
+                elevation: 0,
+                sx: {
+                  overflow: "visible",
+                  filter: "drop-shadow(0px 4px 20px rgba(0,0,0,0.15))",
+                  mt: 1.5,
+                  minWidth: 200,
+                  borderRadius: 3,
+                  border: "1px solid rgba(0,0,0,0.08)",
+                  "&::before": {
+                    content: '""',
+                    display: "block",
+                    position: "absolute",
+                    top: 0,
+                    right: 14,
+                    width: 10,
+                    height: 10,
+                    bgcolor: "background.paper",
+                    transform: "translateY(-50%) rotate(45deg)",
+                    zIndex: 0,
+                    borderLeft: "1px solid rgba(0,0,0,0.08)",
+                    borderTop: "1px solid rgba(0,0,0,0.08)",
+                  },
+                },
+              },
+            }}
+            transformOrigin={{ horizontal: "right", vertical: "top" }}
+            anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+          >
+            <div className={styles.menuHeader}>
+              <p className={styles.userName}>{userData?.studentname}</p>
+              <p className={styles.welcomeText}>Welcome back!</p>
+            </div>
+            <div className={styles.divider} />
+            <div
+              className={`${styles.menuItem} ${styles.menuItemProfile}`}
+              onClick={() => { handleClose(); navigate.push("/profile"); }}
+            >
+              <Person className={styles.iconProfile} />
+              <span className={styles.menuItemText}>Profile</span>
+            </div>
+            <div
+              className={`${styles.menuItem} ${styles.menuItemOrders}`}
+              onClick={() => { handleClose(); navigate.push("/orders"); }}
+            >
+              <ShoppingBag className={styles.iconOrders} />
+              <span className={styles.menuItemText}>Orders</span>
+            </div>
+            <div className={styles.divider} />
+            <div
+              className={`${styles.menuItem} ${styles.menuItemLogout}`}
+              onClick={handleLogout}
+            >
+              <Logout className={styles.iconLogout} />
+              <span className={`${styles.menuItemText} ${styles.logoutText}`}>Logout</span>
+            </div>
+          </Menu>
+        </div>
+      )}
     </div>
   );
 }

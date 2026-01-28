@@ -1,89 +1,5 @@
-// "use client";
-// import { useTheme } from "@mui/material/styles";
-// import useMediaQuery from "@mui/material/useMediaQuery";
-// import AddToCartComponent from "../../purchaseinterface/AddToCartComponent";
-// import ProductImageComponent from "../../purchaseinterface/ProductImageComponent";
-// import ProductInfoComponent from "../../purchaseinterface/ProductInfoComponent";
-// import ProductRateComponent from "../../purchaseinterface/ProductRateComponent";
-// import SimilarAvailableComponent from "../../purchaseinterface/SimilarAvailableComponent";
-// import Card from "../../purchaseinterface/Card"
-// import { useParams } from "next/navigation";
-// import { useEffect, useRef, useState } from "react";
-// import { postData } from "../../services/FetchNodeServices";
-// import FooterComponent from "../../components/Foter";
-// import Header from "../../components/Header";
-// export default function ProductDetailComponent() {
-//   var params = useParams()
-//   const { id } = useParams()
-//   const [foodItem, setFoodItem] = useState({})
-//   const [categoryList, setCategoryList] = useState([])
-
-//   const aboutRef = useRef()
-//   const theme = useTheme();
-//   const matches = useMediaQuery(theme.breakpoints.down("md"));
-
-
-
-//   const fetchFoodDetails = async () => {
-
-//     var response = await postData("users/fetch_all_fooditems_by_id", { fooditemid: id });
-
-//     //alert(JSON.stringify(response.data))
-
-//     setFoodItem(response.data)
-
-//     await fetchAllFoodByCategoryId(response.data.categoryid)
-//   }
-
-//   const fetchAllFoodByCategoryId = async (cn) => {
-//     var response = await postData("users/fetch_all_fooditems_by_category_id", { categoryid: cn });
-//     //  alert(JSON.stringify(response.data))
-//     setCategoryList(response.data)
-//   };
-
-//   useEffect(function () {
-//     fetchFoodDetails()
-//   }, [id])
-
-//   return (
-//     <div>
-//       <div>
-//         <Header dataRef={aboutRef} />
-//       </div>
-
-//       <div
-//         style={{
-//           background: "#F3ECF7",
-//           minHeight: "100vh",
-//           width: matches ? "100%" : "95%",
-//           borderRadius: matches ? 0 : 20,
-//           marginLeft: matches ? "0" : "2%",
-//           marginTop: matches ? 0 : 20,
-//         }}
-//       >
-
-//         <div style={{ padding: "15px" }}>
-
-//           <Card data={foodItem} />
-
-
-
-
-
-//         </div>
-
-//       </div>
-//     </div>
-//   );
-// }
-
-
-
-
-
-
-///second /// 
 "use client";
+
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import AddToCartComponent from "../../purchaseinterface/AddToCartComponent";
@@ -92,112 +8,121 @@ import ProductInfoComponent from "../../purchaseinterface/ProductInfoComponent";
 import ProductRateComponent from "../../purchaseinterface/ProductRateComponent";
 import SimilarAvailableComponent from "../../purchaseinterface/SimilarAvailableComponent";
 import { useParams } from "next/navigation";
-import { useEffect,useRef,useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { postData } from "@/app/services/FetchNodeServices";
-import FooterComponent from "@/app/components/Foter";
 import Header from "@/app/components/Header";
 import { Grid } from "@mui/material";
 import { useSelector } from "react-redux";
-export default  function ProductDetailComponent() {
-    var params=useParams()
-    const {id}=useParams()
-    var cart=useSelector((state)=>state.cart)
-    const [foodItem,setFoodItem]=useState({})
-    const [categoryList,setCategoryList]=useState([])
-        const [pictureList,setPictureList]=useState([])
-    const [refresh,setRefresh]=useState(false)
-   const aboutRef=useRef()    
-   const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.down("md"));
-  
+import Footer from "@/app/components/Foter";
 
+export default function ProductDetailComponent() {
+  const { id } = useParams();
+  const cart = useSelector((state) => state.cart);
 
-  const fetchFoodDetails=async()=>{
-        
-      
-        
-        //alert(JSON.stringify(response.data))
-        var cartkeys=Object.keys(cart)
-        var data={}
-        if(cartkeys.includes(id))
-        { 
-           data=cart[id]
-          setFoodItem(data)
-          //alert("cart m h")
+  const [foodItem, setFoodItem] = useState({});
+  const [categoryList, setCategoryList] = useState([]);
+  const [pictureList, setPictureList] = useState([]);
+  const [refresh, setRefresh] = useState(false);
 
-        }  
-        else
-        {
-        //alert('nahi h')  
-        var response = await postData("users/fetch_all_fooditems_by_id",{fooditemid:id});
-         data=response.data
-        data['qty']=0  
-        setFoodItem(data)    
-        }
-        
-        await fetchAllFoodByCategoryId(data?.categoryid)
-  }
+  const aboutRef = useRef();
+
+  // ✅ MOBILE MEDIA QUERY
+  const matches = useMediaQuery("(max-width:768px)");
+
+  const fetchFoodDetails = async () => {
+    let data = {};
+    const cartkeys = Object.keys(cart);
+
+    if (cartkeys.includes(id)) {
+      data = cart[id];
+      setFoodItem(data);
+    } else {
+      const response = await postData(
+        "users/fetch_all_fooditems_by_id",
+        { fooditemid: id }
+      );
+      data = response.data;
+      data["qty"] = 0;
+      setFoodItem(data);
+    }
+
+    fetchAllFoodByCategoryId(data?.categoryid);
+  };
 
   const fetchAllFoodByCategoryId = async (cn) => {
-        var response = await postData("users/fetch_all_fooditems_by_category_id",{categoryid:cn});
-       //  alert(JSON.stringify(response.data))
-        setCategoryList(response.data) 
-      };
+    const response = await postData(
+      "users/fetch_all_fooditems_by_category_id",
+      { categoryid: cn }
+    );
+    setCategoryList(response.data);
+  };
 
-      const fetchAllFoodPicture = async () => {
-        var response = await postData("pictures/fetch_all_picture",{fooditemid:id});
-       // alert(JSON.stringify(response.data))
-        setPictureList(response.data) 
-      };
+  const fetchAllFoodPicture = async () => {
+    const response = await postData(
+      "pictures/fetch_all_picture",
+      { fooditemid: id }
+    );
+    setPictureList(response.data);
+  };
 
-useEffect(function(){
-fetchFoodDetails()
-fetchAllFoodPicture()
-  },[id])
+  useEffect(() => {
+    fetchFoodDetails();
+    fetchAllFoodPicture();
+  }, [id]);
 
   return (
     <div>
-      <div>
-             <Header dataRef={aboutRef}/>
-      </div>
-             
-    <div
-      style={{
-        background: "#F3ECF7",
-        minHeight: "100vh",
-        width: matches ? "100%" : "95%",
-        borderRadius: matches ? 0 : 20,
-        marginLeft: matches ? "0" : "2%",
-        marginTop: matches ? 0 : 20,
-        padding:40
-      }}>
+      <Header dataRef={aboutRef} />
 
+      {/* MAIN CONTAINER */}
+      <div
+        style={{
+          background: "#F3ECF7",
+          minHeight: "100vh",
+          width: matches ? "100%" : "95%",
+          borderRadius: matches ? 0 : 20,
+          marginLeft: matches ? 0 : "2%",
+          marginTop: matches ? 0 : 20,
+          padding: matches ? 12 : 40, // ✅ MOBILE FIX
+        }}
+      >
         <Grid container spacing={2}>
-        <Grid size={6} >
-          <ProductImageComponent data={foodItem} pictures={pictureList} /> 
-        </Grid>
-        <Grid size={6} style={{padding:40}}>
-              <div>
-              <ProductRateComponent data={foodItem}  />
-              </div>
-              <div>
-              <AddToCartComponent data={foodItem} refresh={refresh} setRefresh={setRefresh} />
-              </div>
-              <div style={{width:'100%'}}>
-                <SimilarAvailableComponent data={categoryList} />
-              </div>
-              <div>
-                <ProductInfoComponent data={foodItem}/>
-              </div>
-        </Grid>
+          {/* LEFT : IMAGE */}
+          <Grid size={matches ? 12 : 6}>
+            <ProductImageComponent
+              data={foodItem}
+              pictures={pictureList}
+            />
+          </Grid>
 
-      </Grid>
-    
+          {/* RIGHT : DETAILS */}
+          <Grid
+            size={matches ? 12 : 6}
+            style={{ padding: matches ? 0 : 40 }} // ✅ MOBILE FIX
+          >
+            <div style={{ marginBottom: matches ? 10 : 20 }}>
+              <ProductRateComponent data={foodItem} />
+            </div>
+
+            <div style={{ marginBottom: matches ? 12 : 20 }}>
+              <AddToCartComponent
+                data={foodItem}
+                refresh={refresh}
+                setRefresh={setRefresh}
+              />
+            </div>
+
+            <div style={{ width: "100%", marginBottom: matches ? 12 : 20 }}>
+              <SimilarAvailableComponent data={categoryList} />
+            </div>
+
+            <div>
+              <ProductInfoComponent data={foodItem} />
+            </div>
+          </Grid>
+        </Grid>
       </div>
-      </div>
-      
-     
- 
-      
+      <Footer/>
+    </div>
   );
 }

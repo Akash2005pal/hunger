@@ -2,318 +2,203 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useTheme } from "@mui/material/styles";
 import { Divider } from "@mui/material";
 import { useDispatch } from "react-redux";
-export default function AddToCartComponent({ data,refresh,setRefresh }) {
-  const theme = useTheme();
 
-  const matches = useMediaQuery(theme.breakpoints.down("md"));
+export default function AddToCartComponent({ data, refresh, setRefresh }) {
+  const matches = useMediaQuery("(max-width:768px)");
+  const dispatch = useDispatch();
 
-  const [hovered, setHovered] = useState(null);
+  const [hovered, setHovered] = useState(false);
   const [quantity, setQuantity] = useState(data.qty);
   const [weight, setWeight] = useState();
- 
-  var dispatch=useDispatch() 
 
   const handleAddClick = () => {
-   
-    var q = quantity;
-    q++;
-     data['qty']=q
+    let q = quantity + 1;
+    data.qty = q;
     setQuantity(q);
-    dispatch({type:"ADD_CART",payload:[data.fooditemid,data]})
-    setRefresh(!refresh)
+    dispatch({ type: "ADD_CART", payload: [data.fooditemid, data] });
+    setRefresh(!refresh);
   };
 
   const handleMinusClick = () => {
-   var q = quantity;
-    q--
-    if(q==0)
-   {
-    dispatch({type:"DELETE_CART",payload:[data.fooditemid,data]})
-    setQuantity(q);
-     }
-    else
-      {
-        q--
-        data['qty']=q
-        setQuantity(q)
-        dispatch({type:"ADD_CART",payload:[data.fooditemid,data]})
-      } 
-   
-    setRefresh(!refresh)
+    let q = quantity - 1;
+    if (q <= 0) {
+      dispatch({ type: "DELETE_CART", payload: [data.fooditemid, data] });
+      setQuantity(0);
+    } else {
+      data.qty = q;
+      setQuantity(q);
+      dispatch({ type: "ADD_CART", payload: [data.fooditemid, data] });
+    }
+    setRefresh(!refresh);
   };
-  useEffect(
-    function () {
-      setWeight(data?.offerprice > 0 ? data?.offerprice : data?.fullprice);
-    },
-    [data?.fooditemid]
-  );
-  useEffect(function(){
-   setQuantity(data.qty)
-  },[data.qty])
 
- 
+  useEffect(() => {
+    setWeight(data?.offerprice > 0 ? data?.offerprice : data?.fullprice);
+  }, [data?.fooditemid]);
+
+  useEffect(() => {
+    setQuantity(data.qty);
+  }, [data.qty]);
+
   const weightOptions = [
     data?.offerprice > 0 ? data?.offerprice : data?.fullprice,
     data?.halfprice,
   ];
 
   return (
-    <div style={{display:'flex',flexDirection:'column'}}>
-
-    <div style={{ padding: matches ? "20px" : "0",
- 
-              background: "white",
-              borderRadius: 15,
-              padding: "20px",
-              marginTop: "15px",
- 
-
-     }}>
-      {/* WEIGHT & QUANTITY SECTION */}
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      {/* CARD */}
       <div
         style={{
-          display: "flex",
-          alignItems: matches ? "flex-start" : "center",
-          justifyContent: matches ? "flex-start" : "space-between",
-          width: "60%",
-          maxWidth: matches ? "100%" : 400,
-          marginTop: 0,
-          // flexDirection: matches ? "row" : "row",
-          flexDirection: "row",
-          gap: matches ? 105 : 0,
+          background: "#fff",
+          borderRadius: 15,
+          padding: matches ? 16 : 20,          // ✅ mobile only
+          marginTop: 15,
         }}
       >
-        {/* WEIGHT SELECTION */}
         <div
           style={{
             display: "flex",
-            flexDirection: "column",
-            alignItems: matches ? "flex-start" : "center",
-            gap: matches ? 10 : 5,
-            width: matches ? "100%" : "auto",
+            flexDirection: "row", // ✅ mobile only
+            gap: matches ? 12 : 100,
           }}
         >
-          <div
-            style={{ display: "flex", gap: 10, marginTop: 10, width: "100%" }}
-          >
-            {weightOptions.map((w) => (
-              <div>{w > 0 ? (
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
+          {/* WEIGHT */}
+          <div>
+            <div style={{ display: "flex", gap: 10 }}>
+              {weightOptions.map(
+                (w, i) =>
+                  w > 0 && (
                     <div
+                      key={i}
                       onClick={() => setWeight(w)}
                       style={{
                         cursor: "pointer",
                         borderRadius: "50%",
-                        background: weight === w ? "rgb(13, 156, 67)" : "#fff",
-                        width: matches ? 45 : 50,
+                        background:
+                          weight === w ? "rgb(13,156,67)" : "#fff",
+                        width: matches ? 45 : 50,   // ✅ mobile only
                         height: matches ? 45 : 50,
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
                         color: weight === w ? "#fff" : "#000",
-                        fontWeight: 400,
-                        fontSize: matches ? 13 : 14,
-                        transition: "0.2s",
-                        border: "1px solid gray",
+                        border: "1px solid #999",
+                        fontSize: matches ? 12 : 12,
                       }}
                     >
                       ₹{w}
                     </div>
-                  </div>
-                ) : (
-                  <div></div>
-                )}
-              </div>
-            ))}
+                  )
+              )}
+            </div>
           </div>
-        </div>
 
-        {quantity == 0 ? (
-          <div style={{ width: matches ? "100%" : "auto" }}>
+          {/* ADD / QTY */}
+          {quantity === 0 ? (
             <button
+              onClick={handleAddClick}
               onMouseEnter={() => setHovered(true)}
               onMouseLeave={() => setHovered(false)}
-              onClick={handleAddClick}
               style={{
-                display: "flex",
-                marginLeft: matches ? "0" : "70%",
-                marginTop: matches ? 0 : 20,
+                width: matches ? "70%" : 260,   // ✅ mobile only
+                height: 40,
                 borderRadius: matches ? 10 : 25,
-                backgroundColor: "transparent",
-                border: "1px solid rgb(13, 156, 67)",
-                color: "rgb(13, 156, 67)",
-                width: matches ? "93%" : "245%",
-                height: matches ? 45 : 50,
-                alignItems: "center",
-                justifyContent: "center",
+                background: "transparent",
+                border: "1px solid rgb(13,156,67)",
+                color: "rgb(13,156,67)",
+                fontSize: matches ? 14 : 16,
                 fontWeight: 500,
-                fontSize: matches ? "14px" : "16px",
                 cursor: "pointer",
-                transition: "0.2s",
-                boxShadow: hovered ? "0 0 0 3px rgb(13, 156, 67)" : "none",
+                boxShadow: hovered
+                  ? "0 0 0 3px rgba(13,156,67,0.3)"
+                  : "none",
               }}
             >
               Add to Cart
             </button>
-          </div>
-        ) : (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: matches ? "flex-start" : "center",
-              gap: matches ? 10 : 5,
-              width: matches ? "100%" : "auto",
-              marginLeft: matches ? "a" : 250,
-            }}
-          >
-            <span
-              style={{
-                fontWeight: 500,
-                fontSize: matches ? "16px" : "18px",
-              }}
-            >
-              Quantity
-            </span>
-            <div
-              style={{
-                display: "flex",
-                gap: 10,
-                alignItems: "center",
-                marginTop: 10,
-              }}
-            >
-              <button
-                onClick={handleMinusClick}
+          ) : (
+            <div>
+              <div
                 style={{
-                  cursor: "pointer",
-                  borderRadius: "50%",
-                  background: "rgba(26,26,26,0.1)",
-                  width: matches ? 45 : 50,
-                  height: matches ? 45 : 50,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  border: "none",
+                  fontWeight: 500,
+                  marginBottom: 8,
+                  fontSize: matches ? 14 : 18,   // ✅ mobile only
                 }}
               >
-                <Image
-                  src="/images/minus.png"
-                  alt="minus"
-                  width={20}
-                  height={20}
-                />
-              </button>
+                Quantity
+              </div>
+              <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+                <button
+                  onClick={handleMinusClick}
+                  style={{
+                    width: matches ? 45 : 50,
+                    height: matches ? 45 : 50,
+                    borderRadius: "50%",
+                    border: "none",
+                    background: "rgba(0,0,0,0.1)",
+                    cursor: "pointer",
+                  }}
+                >
+                  <Image src="/images/minus.png" alt="-" width={20} height={20} />
+                </button>
 
-              <span
-                style={{
-                  fontWeight: 600,
-                  fontSize: matches ? 16 : 18,
-                  minWidth: 20,
-                  textAlign: "center",
-                }}
-              >
-                {quantity}
-              </span>
+                <span
+                  style={{
+                    fontSize: matches ? 10 : 18, // ✅ mobile only
+                    fontWeight: 600,
+                  }}
+                >
+                  {quantity}
+                </span>
 
-              <button
-                onClick={handleAddClick}
-                style={{
-                  cursor: "pointer",
-                  borderRadius: "50%",
-                  background: "rgba(26,26,26,0.1)",
-                  width: matches ? 45 : 50,
-                  height: matches ? 45 : 50,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  border: "none",
-                }}
-              >
-                <Image
-                  src="/images/plus.png"
-                  alt="plus"
-                  width={20}
-                  height={20}
-                />
-              </button>
+                <button
+                  onClick={handleAddClick}
+                  style={{
+                    width: matches ? 45 : 50,
+                    height: matches ? 45 : 50,
+                    borderRadius: "50%",
+                    border: "none",
+                    background: "rgba(0,0,0,0.1)",
+                    cursor: "pointer",
+                  }}
+                >
+                  <Image src="/images/plus.png" alt="+" width={20} height={20} />
+                </button>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
-      {/* BUTTONS SECTION */}
+      {/* BUY NOW */}
       <div
         style={{
           display: "flex",
-          flexDirection: matches ? "column" : "row",
-          // marginTop: matches ? 40 : 70,
-          gap: matches ? 15 : 250,
-          marginLeft: matches ? -35 : -80,
-          width: "100%",
-          marginTop: matches ? "15%" : "6%",
+          justifyContent: "center",
+          marginTop: 20,
         }}
       >
-      </div>
-
-      </div>
-
-      
-        {/* BUY NOW BUTTON */}
-        <div
+        <button
           style={{
-            display: "flex",
-            
-            width: "100%",
-            justifyContent: "center",
-            marginTop:20,
+            width: matches ? "100%" : "50%",   // ✅ mobile only
+            height: 45,
+            borderRadius: matches ? 10 : 25,
+            background: "rgb(13,156,67)",
+            color: "#fff",
+            fontSize: matches ? 14 : 16,
+            fontWeight: 500,
+            border: "none",
+            cursor: "pointer",
           }}
         >
-          <button
-            style={{
-              display: "flex",
-              borderRadius: matches ? 10 : 25,
-              backgroundColor: "rgb(13, 156, 67)",
-              color: "#fff",
-              width: "50%",
-              height: matches ? 45 : 50,
-              alignItems: "center",
-              justifyContent: "center",
-              fontWeight: 500,
-              fontSize: matches ? "14px" : "16px",
-              cursor: "pointer",
-              border: "none",
-              
-            }}
-          >
-            Buy it Now
-          </button>
-        </div>
+          Buy it Now
+        </button>
+      </div>
 
-      <Divider
-        style={{
-          display: "flex",
-         marginTop:'2%',
-          color: "#cebdd8ff",
-          width: matches ? "93%" : "100%",
-          border: "none",
-          borderTop: "1px solid #cebdd8ff",
-          
-          marginLeft:0
-        }}
-      />
+      <Divider style={{ marginTop: 20 }} />
     </div>
-    
-    
   );
 }

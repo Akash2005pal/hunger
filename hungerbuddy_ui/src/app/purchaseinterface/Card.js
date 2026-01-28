@@ -18,13 +18,13 @@ import {
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ScrollProductList from "./ScrollProductList";
-
+import { useDispatch } from "react-redux";
 // 👉 Swiper imports (only addition)
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 
-export default function ProductDetails() {
+export default function ProductDetails({data, refresh, setRefresh}) {
   const [weight, setWeight] = useState("235g");
   const [qty, setQty] = useState(1);
 

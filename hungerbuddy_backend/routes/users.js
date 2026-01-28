@@ -200,7 +200,7 @@ router.post(
           } else {
             res
               .status(200)
-              .json({ status: true, message: "Batch Added Successfully" });
+              .json({ status: true,orderid: result.insertId, message: "Order Added Successfully" });
           }
         }
       );
